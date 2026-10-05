@@ -204,6 +204,34 @@
             min-height: 30px;
         }
 
+        .learn-hint-row {
+            display: flex;
+            justify-content: center;
+        }
+
+        .hint-btn {
+            background-color: #0f172a;
+            color: var(--text-muted);
+            border: 1px solid #334155;
+            padding: 8px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .hint-btn:hover {
+            color: var(--text);
+            border-color: var(--accent);
+        }
+
+        .hint-btn.active {
+            color: #0f172a;
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
         .controls {
             display: flex;
             gap: 10px;
@@ -580,6 +608,11 @@
                 gap: 8px;
             }
 
+            .hint-btn {
+                min-height: 44px;
+                padding: 10px 14px;
+            }
+
             .controls > * {
                 max-width: 100%;
             }
@@ -712,6 +745,10 @@
 
     <!-- Treść zadania / Instrukcja -->
     <div class="instruction" id="instruction">Wczytywanie zadania...</div>
+
+    <div class="learn-hint-row" id="learn-hint-row">
+        <button class="hint-btn" id="hint-toggle-btn" type="button" onclick="toggleOctaveHint()">💡 Pokaż podpowiedź</button>
+    </div>
 
     <!-- Obszar Pięciolinii -->
     <div id="canvas-wrapper">
@@ -860,6 +897,7 @@
     // Stan Aplikacji
     let mainTab = 'learn'; 
     let exerciseType = 1;  
+    let showOctaveHint = false;
     let targetNote = null;
     let selectedPitchIndex = null;
     let userAccidental = '';
@@ -941,8 +979,10 @@
         document.getElementById('learn-mistakes-section').style.display = isTest ? 'none' : 'block';
 
         if (isTest) {
+            document.getElementById('learn-hint-row').style.display = 'none';
             openTestConfig();
         } else {
+            document.getElementById('learn-hint-row').style.display = 'flex';
             document.getElementById('test-config-card').style.display = 'none';
             document.getElementById('test-results-card').style.display = 'none';
             document.getElementById('test-progress-container').style.display = 'none';
@@ -971,6 +1011,7 @@
     }
 
     function openTestConfig() {
+        document.getElementById('learn-hint-row').style.display = 'none';
         document.getElementById('canvas-wrapper').style.display = 'none';
         document.getElementById('controls').style.display = 'none';
         document.getElementById('instruction').style.display = 'none';
@@ -1176,6 +1217,69 @@
         };
     }
 
+    function drawOctaveHintRanges(isTreble, centerY, staffRightX, staffMetrics) {
+        const xStart = 112;
+        const xEnd = staffRightX - 8;
+        if (xEnd <= xStart) return;
+
+        const octaveY = new Map();
+        ALL_BASE_NOTES.forEach(note => {
+            const y = getNoteY(note.index, isTreble);
+            if (y < 18 || y > canvas.height - 18) return;
+            if (!octaveY.has(note.octave)) octaveY.set(note.octave, []);
+            octaveY.get(note.octave).push(y);
+        });
+
+        const ranges = Array.from(octaveY.entries())
+            .map(([oct, ys]) => ({
+                oct,
+                min: Math.max(16, Math.min(...ys) - staffMetrics.stepHeight * 0.65),
+                max: Math.min(canvas.height - 16, Math.max(...ys) + staffMetrics.stepHeight * 0.65)
+            }))
+            .sort((a, b) => a.min - b.min);
+
+        const bandColors = ['rgba(56, 189, 248, 0.12)', 'rgba(14, 165, 233, 0.08)'];
+        ctx.save();
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.font = '700 11px Segoe UI, sans-serif';
+
+        ranges.forEach((r, i) => {
+            const height = Math.max(8, r.max - r.min);
+            ctx.fillStyle = bandColors[i % bandColors.length];
+            ctx.fillRect(xStart, r.min, xEnd - xStart, height);
+
+            ctx.fillStyle = 'rgba(15, 23, 42, 0.75)';
+            const octaveLabel = OCTAVE_NAMES[r.oct] || `okt. ${r.oct}`;
+            ctx.fillText(octaveLabel, xEnd - 6, (r.min + r.max) / 2);
+        });
+
+        ctx.restore();
+    }
+
+    function updateHintButtonUI() {
+        const btn = document.getElementById('hint-toggle-btn');
+        if (!btn) return;
+        btn.classList.toggle('active', showOctaveHint);
+        btn.textContent = showOctaveHint ? '🙈 Ukryj podpowiedź' : '💡 Pokaż podpowiedź';
+    }
+
+    function redrawCurrentStaff() {
+        if (!targetNote) return;
+        if (exerciseType === 1) {
+            drawStaff(targetNote.index, targetNote.accidental);
+        } else {
+            drawStaff(selectedPitchIndex, userAccidental);
+        }
+    }
+
+    function toggleOctaveHint() {
+        if (mainTab !== 'learn') return;
+        showOctaveHint = !showOctaveHint;
+        updateHintButtonUI();
+        redrawCurrentStaff();
+    }
+
     function canRenderGlyph(symbol, fontDecl) {
         ctx.save();
         ctx.font = fontDecl;
@@ -1256,6 +1360,10 @@
         const staffTopY = centerY - 2 * lineSpacing;
         const staffBottomY = centerY + 2 * lineSpacing;
         const staffRightX = 560;
+
+        if (mainTab === 'learn' && showOctaveHint) {
+            drawOctaveHintRanges(isTreble, centerY, staffRightX, staffMetrics);
+        }
 
         ctx.strokeStyle = '#334155';
         ctx.lineWidth = strokeWidth;
@@ -1668,6 +1776,7 @@
     });
 
     nextQuestion();
+    updateHintButtonUI();
 </script>
 
 </body>
