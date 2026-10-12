@@ -375,6 +375,199 @@
             text-align: center;
         }
 
+        .home-screen {
+            width: 100%;
+            max-width: 760px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            padding: 30px;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            background: var(--card-bg);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .home-screen-header {
+            text-align: center;
+        }
+
+        .home-screen-header p {
+            margin-top: 8px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .menu-tiles {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .menu-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            min-height: 190px;
+            padding: 22px;
+            border: 1px solid #475569;
+            border-radius: 14px;
+            background: #0f172a;
+            color: var(--text);
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .menu-tile:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            background: #111e35;
+        }
+
+        .menu-tile-icon {
+            font-size: 2rem;
+        }
+
+        .menu-tile-title {
+            color: var(--accent);
+            font-size: 1.15rem;
+            font-weight: 800;
+            line-height: 1.3;
+        }
+
+        .menu-tile-description {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.45;
+        }
+
+        .back-menu-btn {
+            align-self: flex-start;
+            min-height: 42px;
+            padding: 8px 14px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #0f172a;
+            color: var(--text-muted);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .back-menu-btn:hover {
+            border-color: var(--accent);
+            color: var(--text);
+        }
+
+        .music-quiz-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            padding: 18px;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            background: #0f172a;
+        }
+
+        .music-status {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            text-align: center;
+        }
+
+        .music-question-title {
+            color: var(--text);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .music-audio {
+            width: 100%;
+            min-height: 44px;
+        }
+
+        .music-answer-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .music-answer {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+            min-height: 68px;
+            padding: 12px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            background: #1e293b;
+            color: var(--text);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .music-answer:hover:not(:disabled) {
+            border-color: var(--accent);
+            background: #26364e;
+        }
+
+        .music-answer:disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .music-answer-title {
+            font-weight: 700;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .music-answer-composer {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .music-answer.correct {
+            border-color: var(--correct);
+            background: rgba(34, 197, 94, 0.16);
+        }
+
+        .music-answer.wrong {
+            border-color: var(--wrong);
+            background: rgba(239, 68, 68, 0.16);
+        }
+
+        .music-feedback {
+            min-height: 24px;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .music-feedback.correct { color: var(--correct); }
+        .music-feedback.wrong { color: var(--wrong); }
+
+        .music-next-btn {
+            width: 100%;
+            min-height: 48px;
+        }
+
+        .music-result-panel {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .music-result-score {
+            color: var(--accent);
+            font-size: 2.4rem;
+            font-weight: 800;
+        }
+
         /* Sekcja Konfiguracji Testu */
         .test-config-card {
             display: none;
@@ -552,6 +745,29 @@
                 gap: 14px;
             }
 
+            .home-screen {
+                padding: 20px 16px;
+                gap: 18px;
+            }
+
+            .menu-tiles,
+            .music-answer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .menu-tile {
+                min-height: 0;
+                padding: 18px;
+            }
+
+            .music-quiz-card {
+                padding: 14px;
+            }
+
+            .music-answer {
+                min-height: 58px;
+            }
+
             h1 {
                 font-size: 1.4rem;
                 line-height: 1.25;
@@ -670,7 +886,30 @@
 
 <div id="streak-banner" class="streak-banner">🔥 5 Z RZĘDU!</div>
 
-<div class="container">
+<main class="home-screen" id="home-screen">
+    <header class="home-screen-header">
+        <h1>Muzyczna Pracownia</h1>
+        <p>Wybierz, czego chcesz się dziś uczyć.</p>
+    </header>
+
+    <div class="menu-tiles">
+        <button class="menu-tile" type="button" onclick="openModule('notes')">
+            <span class="menu-tile-icon" aria-hidden="true">🎼</span>
+            <span class="menu-tile-title">Rozpoznawanie wysokości nut w oktawach</span>
+            <span class="menu-tile-description">Ćwicz czytanie nut na pięciolinii, znaki chromatyczne i oktawy.</span>
+        </button>
+        <button class="menu-tile" type="button" onclick="openModule('music')">
+            <span class="menu-tile-icon" aria-hidden="true">🎧</span>
+            <span class="menu-tile-title">Rozpoznawanie utworów</span>
+            <span class="menu-tile-description">Posłuchaj fragmentów nagrań z assets i wybierz właściwy utwór.</span>
+        </button>
+    </div>
+
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
+<div class="container" id="notes-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
     <h1>Nauka Nut Ze Znakami Chromatycznymi</h1>
 
     <!-- Wybór Trybu Głównego -->
@@ -795,6 +1034,33 @@
     <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
 </div>
 
+<main class="container music-screen" id="music-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
+    <h1>Rozpoznawanie utworów</h1>
+
+    <section id="music-quiz-content">
+        <div class="music-quiz-card">
+            <div class="music-status" id="music-status" aria-live="polite"></div>
+            <h2 class="music-question-title">Jakiego utworu słuchasz?</h2>
+            <audio class="music-audio" id="music-audio" controls preload="none">
+                Twoja przeglądarka nie obsługuje odtwarzania audio.
+            </audio>
+            <div class="music-answer-grid" id="music-answer-grid"></div>
+            <div class="music-feedback" id="music-feedback" role="status" aria-live="polite"></div>
+            <button class="btn btn-primary music-next-btn" id="music-next-btn" type="button" onclick="nextMusicQuestion()" style="display: none;">Następne nagranie</button>
+        </div>
+    </section>
+
+    <section class="music-result-panel" id="music-result-panel">
+        <h2>Runda zakończona</h2>
+        <p>Twój wynik:</p>
+        <div class="music-result-score" id="music-result-score"></div>
+        <button class="btn btn-primary" type="button" onclick="startMusicQuiz()">Zagraj ponownie</button>
+    </section>
+
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
 <script>
     /* ==========================================
        ANIMACJA CONFETTI & STRATEGI
@@ -882,6 +1148,69 @@
         { id: 'bb', symbol: '♭♭', label: '♭♭ (podwójny bemol)' }
     ];
 
+    const MUSIC_TRACKS = [
+        {
+            id: 'machaut-kyrie',
+            composer: 'Guillaume de Machaut',
+            title: 'Messe de Nostre Dame — Kyrie',
+            file: 'Guillaume de Machaut La Messe de Nostre Dame - Kyrie.mp3'
+        },
+        {
+            id: 'palestrina-kyrie',
+            composer: 'Giovanni Pierluigi da Palestrina',
+            title: 'Missa Papae Marcelli — Kyrie',
+            file: 'Giovanni Pierluigi da Palestrina - Missa Papae Marcelli - Kyrie.mp3'
+        },
+        {
+            id: 'waclaw-zmierzcha',
+            composer: 'Wacław z Szamotuł',
+            title: 'Już się zmierzcha',
+            file: 'Wacław z Szamotuł Już się zmierzcha Cappella Marialis.mp3'
+        },
+        {
+            id: 'vivaldi-lato',
+            composer: 'Antonio Vivaldi',
+            title: 'Cztery pory roku — Lato',
+            file: 'Antonio Vivaldi - Lato.mp3'
+        },
+        {
+            id: 'vivaldi-zima',
+            composer: 'Antonio Vivaldi',
+            title: 'Cztery pory roku — Zima',
+            file: 'Antonio Vivaldi - Zima.mp3'
+        },
+        {
+            id: 'vivaldi-gloria',
+            composer: 'Antonio Vivaldi',
+            title: 'Gloria',
+            file: 'Vivaldis Gloria.mp3'
+        },
+        {
+            id: 'monteverdi-pur-ti-miro',
+            composer: 'Claudio Monteverdi',
+            title: 'Koronacja Poppei — Pur ti miro, Pur ti godo',
+            file: 'MONTEVERDI Lincoronazione di Poppea Pur ti miro, Pur ti godo (Jaroussky, De Niese).mp3'
+        },
+        {
+            id: 'bach-toccata-fugue',
+            composer: 'Johann Sebastian Bach',
+            title: 'Toccata i fuga d-moll, BWV 565',
+            file: 'Jan Sebastian Bach - Toccata i fuga d-moll (BWV 565)..mp3'
+        },
+        {
+            id: 'bach-passacaglia',
+            composer: 'Johann Sebastian Bach',
+            title: 'Passacaglia i fuga c-moll, BWV 582',
+            file: 'Bach - Passacaglia in C minor BWV 582 - Smits Netherlands Bach Society.mp3'
+        },
+        {
+            id: 'bach-cello-prelude',
+            composer: 'Johann Sebastian Bach',
+            title: 'Suita wiolonczelowa G-dur — Preludium, BWV 1007',
+            file: 'Bach - Prelude from Cello Suite no. 1 BWV 1007 Netherlands Bach Society.mp3'
+        }
+    ];
+
     const ALL_BASE_NOTES = [];
     for (let oct = 0; oct <= 8; oct++) {
         for (let i = 0; i < NOTE_NAMES.length; i++) {
@@ -898,6 +1227,10 @@
     let mainTab = 'learn'; 
     let exerciseType = 1;  
     let showOctaveHint = false;
+    let musicQuestions = [];
+    let musicQuestionIndex = 0;
+    let musicScore = 0;
+    let musicAnswered = false;
     let targetNote = null;
     let selectedPitchIndex = null;
     let userAccidental = '';
@@ -929,6 +1262,128 @@
 
     const canvas = document.getElementById('staffCanvas');
     const ctx = canvas.getContext('2d');
+    const musicAudio = document.getElementById('music-audio');
+
+    function openModule(moduleName) {
+        document.getElementById('home-screen').style.display = 'none';
+        document.getElementById('notes-screen').style.display = moduleName === 'notes' ? 'flex' : 'none';
+        document.getElementById('music-screen').style.display = moduleName === 'music' ? 'flex' : 'none';
+
+        if (moduleName === 'music') startMusicQuiz();
+    }
+
+    function returnToHome() {
+        musicAudio.pause();
+        musicAudio.removeAttribute('src');
+        musicAudio.load();
+        document.getElementById('home-screen').style.display = 'flex';
+        document.getElementById('notes-screen').style.display = 'none';
+        document.getElementById('music-screen').style.display = 'none';
+    }
+
+    function shuffleItems(items) {
+        const shuffled = [...items];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }
+
+    function startMusicQuiz() {
+        musicAudio.pause();
+        musicQuestions = shuffleItems(MUSIC_TRACKS);
+        musicQuestionIndex = 0;
+        musicScore = 0;
+        document.getElementById('music-quiz-content').style.display = 'block';
+        document.getElementById('music-result-panel').style.display = 'none';
+        loadMusicQuestion();
+    }
+
+    function loadMusicQuestion() {
+        const track = musicQuestions[musicQuestionIndex];
+        if (!track) return;
+
+        musicAnswered = false;
+        musicAudio.pause();
+        musicAudio.src = `assets/${encodeURIComponent(track.file)}`;
+        musicAudio.load();
+
+        document.getElementById('music-status').textContent =
+            `Utwór ${musicQuestionIndex + 1} z ${musicQuestions.length} · Wynik: ${musicScore}`;
+        document.getElementById('music-feedback').textContent = '';
+        document.getElementById('music-feedback').className = 'music-feedback';
+        document.getElementById('music-next-btn').style.display = 'none';
+
+        const choices = shuffleItems([
+            track,
+            ...shuffleItems(MUSIC_TRACKS.filter(item => item.id !== track.id)).slice(0, 3)
+        ]);
+        const answerGrid = document.getElementById('music-answer-grid');
+        answerGrid.innerHTML = '';
+
+        choices.forEach(choice => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'music-answer';
+            button.dataset.trackId = choice.id;
+
+            const title = document.createElement('span');
+            title.className = 'music-answer-title';
+            title.textContent = choice.title;
+            const composer = document.createElement('span');
+            composer.className = 'music-answer-composer';
+            composer.textContent = choice.composer;
+
+            button.append(title, composer);
+            button.addEventListener('click', () => answerMusicQuestion(choice.id, button));
+            answerGrid.appendChild(button);
+        });
+    }
+
+    function answerMusicQuestion(selectedId, selectedButton) {
+        if (musicAnswered) return;
+        musicAnswered = true;
+        musicAudio.pause();
+
+        const correctTrack = musicQuestions[musicQuestionIndex];
+        const isCorrect = selectedId === correctTrack.id;
+        if (isCorrect) musicScore++;
+
+        document.querySelectorAll('#music-answer-grid .music-answer').forEach(button => {
+            button.disabled = true;
+            if (button.dataset.trackId === correctTrack.id) button.classList.add('correct');
+        });
+        if (!isCorrect) selectedButton.classList.add('wrong');
+
+        const feedback = document.getElementById('music-feedback');
+        feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+        feedback.textContent = isCorrect
+            ? 'Dobrze! Rozpoznano utwór.'
+            : `To: ${correctTrack.composer} — ${correctTrack.title}`;
+
+        document.getElementById('music-status').textContent =
+            `Utwór ${musicQuestionIndex + 1} z ${musicQuestions.length} · Wynik: ${musicScore}`;
+        const nextButton = document.getElementById('music-next-btn');
+        nextButton.textContent = musicQuestionIndex === musicQuestions.length - 1
+            ? 'Zobacz wynik'
+            : 'Następne nagranie';
+        nextButton.style.display = 'block';
+    }
+
+    function nextMusicQuestion() {
+        if (musicQuestionIndex < musicQuestions.length - 1) {
+            musicQuestionIndex++;
+            loadMusicQuestion();
+            return;
+        }
+
+        musicAudio.pause();
+        document.getElementById('music-quiz-content').style.display = 'none';
+        document.getElementById('music-result-panel').style.display = 'flex';
+        document.getElementById('music-result-score').textContent =
+            `${musicScore} / ${musicQuestions.length}`;
+    }
 
     function updateDifficultyDescription() {
         const val = parseInt(document.getElementById('cfg-difficulty-slider').value);
