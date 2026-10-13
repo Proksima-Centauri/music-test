@@ -487,6 +487,46 @@
             min-height: 44px;
         }
 
+        .music-learning-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .music-learning-tile {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            min-width: 0;
+            min-height: 68px;
+            padding: 12px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            background: #0f172a;
+            color: var(--text);
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .music-learning-tile:hover,
+        .music-learning-tile.active {
+            border-color: var(--accent);
+            background: #17243a;
+        }
+
+        .music-learning-tile-title {
+            font-weight: 700;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
+        }
+
+        .music-learning-tile-composer {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
         .music-answer-grid {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -566,6 +606,67 @@
             color: var(--accent);
             font-size: 2.4rem;
             font-weight: 800;
+        }
+
+        .interval-learning-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .interval-learning-tile {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 5px;
+            min-height: 76px;
+            padding: 12px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            background: #0f172a;
+            color: var(--text);
+            text-align: left;
+            cursor: pointer;
+            transition: border-color 0.2s ease, background-color 0.2s ease;
+        }
+
+        .interval-learning-tile:hover {
+            border-color: var(--accent);
+            background: #17243a;
+        }
+
+        .interval-learning-name {
+            color: var(--accent);
+            font-weight: 800;
+        }
+
+        .interval-learning-size {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        .interval-open-answer {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .interval-open-input {
+            width: 100%;
+            min-height: 48px;
+            padding: 12px 14px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #1e293b;
+            color: var(--text);
+            font-size: 1rem;
+        }
+
+        .interval-open-input:focus {
+            border-color: var(--accent);
+            outline: 2px solid rgba(56, 189, 248, 0.2);
         }
 
         /* Sekcja Konfiguracji Testu */
@@ -751,8 +852,13 @@
             }
 
             .menu-tiles,
+            .music-learning-grid,
             .music-answer-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .interval-learning-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .menu-tile {
@@ -903,6 +1009,11 @@
             <span class="menu-tile-title">Rozpoznawanie utworów</span>
             <span class="menu-tile-description">Posłuchaj fragmentów nagrań z assets i wybierz właściwy utwór.</span>
         </button>
+        <button class="menu-tile" type="button" onclick="openModule('intervals')">
+            <span class="menu-tile-icon" aria-hidden="true">🎹</span>
+            <span class="menu-tile-title">Rozpoznawanie interwałów</span>
+            <span class="menu-tile-description">Rozpoznawaj ze słuchu odległości między dwoma dźwiękami.</span>
+        </button>
     </div>
 
     <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
@@ -1038,6 +1149,19 @@
     <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
     <h1>Rozpoznawanie utworów</h1>
 
+    <div class="main-tabs music-mode-tabs">
+        <button class="tab-btn active" id="music-learn-tab" type="button" onclick="setMusicMode('learn')">📚 Tryb Nauki</button>
+        <button class="tab-btn" id="music-test-tab" type="button" onclick="setMusicMode('test')">📝 Tryb Testu</button>
+    </div>
+
+    <section id="music-learning-view">
+        <p class="music-status" id="music-learning-status">Wybierz utwór, aby go odsłuchać.</p>
+        <audio class="music-audio" id="music-learn-audio" controls preload="none">
+            Twoja przeglądarka nie obsługuje odtwarzania audio.
+        </audio>
+        <div class="music-learning-grid" id="music-learning-grid"></div>
+    </section>
+
     <section id="music-quiz-content">
         <div class="music-quiz-card">
             <div class="music-status" id="music-status" aria-live="polite"></div>
@@ -1056,6 +1180,67 @@
         <p>Twój wynik:</p>
         <div class="music-result-score" id="music-result-score"></div>
         <button class="btn btn-primary" type="button" onclick="startMusicQuiz()">Zagraj ponownie</button>
+    </section>
+
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
+<main class="container interval-screen" id="interval-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
+    <h1>Rozpoznawanie interwałów</h1>
+
+    <div class="main-tabs interval-mode-tabs">
+        <button class="tab-btn active" id="interval-learn-tab" type="button" onclick="setIntervalMode('learn')">📚 Tryb Nauki</button>
+        <button class="tab-btn" id="interval-test-tab" type="button" onclick="setIntervalMode('test')">📝 Tryb Testu</button>
+    </div>
+
+    <section id="interval-learning-view">
+        <p class="music-status">Kliknij kafelek, aby usłyszeć interwał zagrany w górę.</p>
+        <div class="interval-learning-grid" id="interval-learning-grid"></div>
+        <div class="music-feedback" id="interval-learning-feedback" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="test-config-card interval-test-config" id="interval-test-config">
+        <h2 style="color: var(--accent); text-align: center;">Personalizacja testu</h2>
+        <div class="config-group">
+            <label for="interval-question-count">Liczba pytań</label>
+            <select id="interval-question-count">
+                <option value="5">5 pytań</option>
+                <option value="10">10 pytań</option>
+                <option value="13" selected>13 pytań (wszystkie interwały)</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label for="interval-question-mode">Rodzaj pytań</label>
+            <select id="interval-question-mode">
+                <option value="closed" selected>Zamknięte — wybór kafelka</option>
+                <option value="open">Otwarte — wpisanie nazwy</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="startIntervalTest()">Rozpocznij test</button>
+    </section>
+
+    <section id="interval-test-view" style="display: none;">
+        <div class="music-quiz-card">
+            <div class="music-status" id="interval-status" aria-live="polite"></div>
+            <h2 class="music-question-title">Jaki interwał słyszysz?</h2>
+            <p class="music-answer-composer" style="text-align: center;">Usłyszysz dwa dźwięki zagrane po kolei, w górę.</p>
+            <button class="btn btn-primary music-next-btn" id="interval-play-btn" type="button" onclick="playCurrentInterval()">🔊 Odtwórz interwał</button>
+            <div class="music-answer-grid" id="interval-answer-grid"></div>
+            <div class="interval-open-answer" id="interval-open-answer" style="display: none;">
+                <input class="interval-open-input" id="interval-answer-input" type="text" autocomplete="off" placeholder="Wpisz nazwę interwału">
+                <button class="btn btn-primary music-next-btn" type="button" onclick="submitOpenIntervalAnswer()">Sprawdź odpowiedź</button>
+            </div>
+            <div class="music-feedback" id="interval-feedback" role="status" aria-live="polite"></div>
+            <button class="btn btn-primary music-next-btn" id="interval-next-btn" type="button" onclick="nextIntervalQuestion()" style="display: none;">Następne pytanie</button>
+        </div>
+    </section>
+
+    <section class="music-result-panel" id="interval-result-panel" style="display: none;">
+        <h2>Test zakończony</h2>
+        <p>Twój wynik:</p>
+        <div class="music-result-score" id="interval-result-score"></div>
+        <button class="btn btn-primary" type="button" onclick="setIntervalMode('test')">Wróć do ustawień testu</button>
     </section>
 
     <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
@@ -1208,7 +1393,83 @@
             composer: 'Johann Sebastian Bach',
             title: 'Suita wiolonczelowa G-dur — Preludium, BWV 1007',
             file: 'Bach - Prelude from Cello Suite no. 1 BWV 1007 Netherlands Bach Society.mp3'
+        },
+        {
+            id: 'handel-messiah-hallelujah',
+            composer: 'Georg Friedrich Händel',
+            title: 'Oratorium Mesjasz — Alleluja',
+            file: 'Alleluja z oratorium „Mesjasz” - Georg Friedrich Haendel.mp3'
+        },
+        {
+            id: 'haydn-clock-symphony',
+            composer: 'Joseph Haydn',
+            title: 'Symfonia D-dur nr 101 „Zegarowa” — cz. I',
+            file: 'Orkiestra OSM, Haydn, Symfonia Zegarowa cz. I.mp3'
+        },
+        {
+            id: 'bach-badinerie',
+            composer: 'Johann Sebastian Bach',
+            title: 'II Suita orkiestrowa h-moll — Badinerie, BWV 1067',
+            file: 'Bach - Badinerie - BWV 1067 Suite.mp3'
+        },
+        {
+            id: 'bach-orchestral-air',
+            composer: 'Johann Sebastian Bach',
+            title: 'III Suita orkiestrowa D-dur — Aria, BWV 1068',
+            file: 'J.S.Bach - Aria z III Suity Orkiestrowej D-dur BWV 1068.mp3'
+        },
+        {
+            id: 'haydn-farewell-symphony',
+            composer: 'Joseph Haydn',
+            title: 'Symfonia fis-moll nr 45 „Pożegnalna” — Allegro assai',
+            file: 'Jan Krenz - J. HaydnSymfonia Nr 45 Pożegnalna. Allegro Assai_ ( Diamentowe batuty - Jan Krenz).mp3'
+        },
+        {
+            id: 'mozart-symphony-25-first',
+            composer: 'Wolfgang Amadeusz Mozart',
+            title: 'Symfonia g-moll nr 25, KV 183 — cz. I',
+            file: 'Mozart Symphony No. 25 in G Minor, K. 183 - I. Allegro con brio.mp3'
+        },
+        {
+            id: 'mozart-symphony-25-fourth',
+            composer: 'Wolfgang Amadeusz Mozart',
+            title: 'Symfonia g-moll nr 25, KV 183 — cz. IV',
+            file: 'Mozart Symphony No. 25 in G minor, K. 183 - IV. Allegro, Conductor Christian Ehwald.mp3'
+        },
+        {
+            id: 'handel-fireworks-music',
+            composer: 'Georg Friedrich Händel',
+            title: 'Muzyka ogni sztucznych, HWV 351',
+            file: 'Georg Friedrich Händel - Muzyka Ogni Sztucznych (HWV 351) [44].mp3'
+        },
+        {
+            id: 'handel-water-music',
+            composer: 'Georg Friedrich Händel',
+            title: 'Muzyka na wodzie — Suita I F-dur, HWV 348',
+            file: 'Handel Water Music Suite I HWV 348 Akademie für Alte Musik Berlin.mp3'
+        },
+        {
+            id: 'bach-cello-gigue',
+            composer: 'Johann Sebastian Bach',
+            title: 'Suita wiolonczelowa G-dur — Gigue, BWV 1007',
+            file: 'Cello Suite No. 1 in G Major, BWV 1007 VI. Gigue.mp3'
         }
+    ];
+
+    const INTERVAL_TYPES = [
+        { semitones: 0, notation: '1', name: 'Pryma czysta', aliases: ['1', 'pryma', 'unison'] },
+        { semitones: 1, notation: '2>', name: 'Sekunda mała', aliases: ['2>'] },
+        { semitones: 2, notation: '2', name: 'Sekunda wielka', aliases: ['2'] },
+        { semitones: 3, notation: '3>', name: 'Tercja mała', aliases: ['3>'] },
+        { semitones: 4, notation: '3', name: 'Tercja wielka', aliases: ['3'] },
+        { semitones: 5, notation: '4', name: 'Kwarta czysta', aliases: ['4'] },
+        { semitones: 6, notation: '4<', name: 'Tryton', aliases: ['4<', '5>', 'Kwarta zwiększona', 'Kwinta zmniejszona'] },
+        { semitones: 7, notation: '5', name: 'Kwinta czysta', aliases: ['5'] },
+        { semitones: 8, notation: '6>', name: 'Seksta mała', aliases: ['6>'] },
+        { semitones: 9, notation: '6', name: 'Seksta wielka', aliases: ['6'] },
+        { semitones: 10, notation: '7>', name: 'Septyma mała', aliases: ['7>'] },
+        { semitones: 11, notation: '7', name: 'Septyma wielka', aliases: ['7'] },
+        { semitones: 12, notation: '8', name: 'Oktawa czysta', aliases: ['8', 'oktawa'] }
     ];
 
     const ALL_BASE_NOTES = [];
@@ -1231,6 +1492,15 @@
     let musicQuestionIndex = 0;
     let musicScore = 0;
     let musicAnswered = false;
+    let musicMode = 'learn';
+    let intervalQuestions = [];
+    let intervalQuestionIndex = 0;
+    let intervalScore = 0;
+    let intervalAnswered = false;
+    let intervalBaseMidi = 60;
+    let intervalAudioContext = null;
+    let intervalMode = 'learn';
+    let intervalQuestionMode = 'closed';
     let targetNote = null;
     let selectedPitchIndex = null;
     let userAccidental = '';
@@ -1263,22 +1533,30 @@
     const canvas = document.getElementById('staffCanvas');
     const ctx = canvas.getContext('2d');
     const musicAudio = document.getElementById('music-audio');
+    const musicLearnAudio = document.getElementById('music-learn-audio');
 
     function openModule(moduleName) {
         document.getElementById('home-screen').style.display = 'none';
         document.getElementById('notes-screen').style.display = moduleName === 'notes' ? 'flex' : 'none';
         document.getElementById('music-screen').style.display = moduleName === 'music' ? 'flex' : 'none';
+        document.getElementById('interval-screen').style.display = moduleName === 'intervals' ? 'flex' : 'none';
 
-        if (moduleName === 'music') startMusicQuiz();
+        if (moduleName === 'music') setMusicMode('learn');
+        if (moduleName === 'intervals') setIntervalMode('learn');
     }
 
     function returnToHome() {
         musicAudio.pause();
         musicAudio.removeAttribute('src');
         musicAudio.load();
+        musicLearnAudio.pause();
+        musicLearnAudio.removeAttribute('src');
+        musicLearnAudio.load();
         document.getElementById('home-screen').style.display = 'flex';
         document.getElementById('notes-screen').style.display = 'none';
         document.getElementById('music-screen').style.display = 'none';
+        document.getElementById('interval-screen').style.display = 'none';
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
     }
 
     function shuffleItems(items) {
@@ -1290,8 +1568,66 @@
         return shuffled;
     }
 
+    function setMusicMode(mode) {
+        musicMode = mode;
+        const isLearning = mode === 'learn';
+        document.getElementById('music-learn-tab').classList.toggle('active', isLearning);
+        document.getElementById('music-test-tab').classList.toggle('active', !isLearning);
+        document.getElementById('music-learning-view').style.display = isLearning ? 'block' : 'none';
+
+        if (isLearning) {
+            musicAudio.pause();
+            document.getElementById('music-quiz-content').style.display = 'none';
+            document.getElementById('music-result-panel').style.display = 'none';
+            renderMusicLearningTiles();
+        } else {
+            musicLearnAudio.pause();
+            startMusicQuiz();
+        }
+    }
+
+    function renderMusicLearningTiles() {
+        const grid = document.getElementById('music-learning-grid');
+        grid.innerHTML = '';
+
+        MUSIC_TRACKS.forEach(track => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'music-learning-tile';
+            button.setAttribute('aria-label', `Odtwórz: ${track.composer} — ${track.title}`);
+
+            const title = document.createElement('span');
+            title.className = 'music-learning-tile-title';
+            title.textContent = track.title;
+            const composer = document.createElement('span');
+            composer.className = 'music-learning-tile-composer';
+            composer.textContent = track.composer;
+
+            button.append(title, composer);
+            button.addEventListener('click', () => playLearningTrack(track, button));
+            grid.appendChild(button);
+        });
+    }
+
+    function playLearningTrack(track, selectedButton) {
+        musicLearnAudio.pause();
+        musicLearnAudio.src = `assets/${encodeURIComponent(track.file)}`;
+        musicLearnAudio.load();
+        document.querySelectorAll('.music-learning-tile').forEach(button => button.classList.remove('active'));
+        selectedButton.classList.add('active');
+        document.getElementById('music-learning-status').textContent =
+            `Odtwarzanie: ${track.composer} — ${track.title}`;
+        musicLearnAudio.play().catch(() => {
+            document.getElementById('music-learning-status').textContent =
+                'Użyj przycisku odtwarzania w odtwarzaczu poniżej.';
+        });
+    }
+
     function startMusicQuiz() {
         musicAudio.pause();
+        document.getElementById('music-learning-view').style.display = 'none';
+        document.getElementById('music-quiz-content').style.display = 'block';
+        document.getElementById('music-result-panel').style.display = 'none';
         musicQuestions = shuffleItems(MUSIC_TRACKS);
         musicQuestionIndex = 0;
         musicScore = 0;
@@ -1383,6 +1719,272 @@
         document.getElementById('music-result-panel').style.display = 'flex';
         document.getElementById('music-result-score').textContent =
             `${musicScore} / ${musicQuestions.length}`;
+    }
+
+    function setIntervalMode(mode) {
+        intervalMode = mode;
+        const isLearning = mode === 'learn';
+
+        document.getElementById('interval-learn-tab').classList.toggle('active', isLearning);
+        document.getElementById('interval-test-tab').classList.toggle('active', !isLearning);
+        document.getElementById('interval-learning-view').style.display = isLearning ? 'block' : 'none';
+        document.getElementById('interval-test-config').style.display = isLearning ? 'none' : 'flex';
+        document.getElementById('interval-test-view').style.display = 'none';
+        document.getElementById('interval-result-panel').style.display = 'none';
+
+        if (isLearning) renderIntervalLearningTiles();
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+    }
+
+    function renderIntervalLearningTiles() {
+        const grid = document.getElementById('interval-learning-grid');
+        grid.innerHTML = '';
+
+        INTERVAL_TYPES.forEach(interval => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'interval-learning-tile';
+            button.setAttribute('aria-label', `Odtwórz ${interval.name}`);
+
+            const name = document.createElement('span');
+            name.className = 'interval-learning-name';
+            name.textContent = `${interval.notation} — ${interval.name}`;
+            const size = document.createElement('span');
+            size.className = 'interval-learning-size';
+            const semitoneLabel = interval.semitones === 0 || interval.semitones >= 5
+                ? 'półtonów'
+                : interval.semitones === 1
+                ? 'półton'
+                : 'półtony';
+            size.textContent = `${interval.semitones} ${semitoneLabel}`;
+
+            button.append(name, size);
+            button.addEventListener('click', () => playLearningInterval(interval));
+            grid.appendChild(button);
+        });
+    }
+
+    function playLearningInterval(interval) {
+        intervalBaseMidi = 60;
+        document.getElementById('interval-learning-feedback').textContent = `Odtwarzam: ${interval.name}.`;
+        playIntervalSemitones(interval.semitones, intervalBaseMidi, 'interval-learning-feedback');
+    }
+
+    function startIntervalTest() {
+        const questionCount = Number(document.getElementById('interval-question-count').value);
+        intervalQuestionMode = document.getElementById('interval-question-mode').value;
+        intervalQuestions = shuffleItems(INTERVAL_TYPES).slice(0, questionCount);
+        intervalQuestionIndex = 0;
+        intervalScore = 0;
+
+        document.getElementById('interval-learning-view').style.display = 'none';
+        document.getElementById('interval-test-config').style.display = 'none';
+        document.getElementById('interval-result-panel').style.display = 'none';
+        document.getElementById('interval-test-view').style.display = 'block';
+        loadIntervalQuestion();
+    }
+
+    function loadIntervalQuestion() {
+        const question = intervalQuestions[intervalQuestionIndex];
+        if (!question) return;
+
+        intervalAnswered = false;
+        intervalBaseMidi = 48 + Math.floor(Math.random() * 24);
+        document.getElementById('interval-status').textContent =
+            `Pytanie ${intervalQuestionIndex + 1} z ${intervalQuestions.length} · Wynik: ${intervalScore}`;
+        document.getElementById('interval-feedback').textContent = '';
+        document.getElementById('interval-feedback').className = 'music-feedback';
+        document.getElementById('interval-next-btn').style.display = 'none';
+
+        const answerGrid = document.getElementById('interval-answer-grid');
+        const openAnswer = document.getElementById('interval-open-answer');
+        const answerInput = document.getElementById('interval-answer-input');
+        answerGrid.style.display = intervalQuestionMode === 'closed' ? 'grid' : 'none';
+        openAnswer.style.display = intervalQuestionMode === 'open' ? 'flex' : 'none';
+        answerInput.value = '';
+        answerInput.disabled = false;
+        openAnswer.querySelector('button').disabled = false;
+        answerInput.onkeydown = event => {
+            if (event.key === 'Enter') submitOpenIntervalAnswer();
+        };
+
+        const choices = shuffleItems([
+            question,
+            ...shuffleItems(INTERVAL_TYPES.filter(item => item.semitones !== question.semitones)).slice(0, 3)
+        ]);
+        answerGrid.innerHTML = '';
+
+        choices.forEach(choice => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'music-answer';
+            button.dataset.interval = choice.semitones;
+
+            const title = document.createElement('span');
+            title.className = 'music-answer-title';
+            title.textContent = `${choice.notation} — ${choice.name}`;
+            button.appendChild(title);
+            button.addEventListener('click', () => answerIntervalQuestion(choice.semitones, button));
+            answerGrid.appendChild(button);
+        });
+    }
+
+    function schedulePianoTone(midi, startAt, output) {
+        const fundamental = 440 * Math.pow(2, (midi - 69) / 12);
+        const noteDecay = Math.max(0.55, 1.35 - (midi - 48) * 0.012);
+        const partials = [
+            { ratio: 1, level: 0.56, decay: noteDecay },
+            { ratio: 2.001, level: 0.23, decay: noteDecay * 0.68 },
+            { ratio: 3.009, level: 0.12, decay: noteDecay * 0.44 },
+            { ratio: 4.018, level: 0.055, decay: noteDecay * 0.3 },
+            { ratio: 5.03, level: 0.022, decay: noteDecay * 0.2 }
+        ];
+
+        partials.forEach(partial => {
+            const oscillator = intervalAudioContext.createOscillator();
+            const envelope = intervalAudioContext.createGain();
+            const peak = partial.level;
+            const decayEnd = startAt + Math.max(0.12, partial.decay);
+
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(fundamental * partial.ratio, startAt);
+            envelope.gain.setValueAtTime(0.0001, startAt);
+            envelope.gain.exponentialRampToValueAtTime(peak, startAt + 0.006);
+            envelope.gain.exponentialRampToValueAtTime(peak * 0.42, startAt + 0.09);
+            envelope.gain.exponentialRampToValueAtTime(0.0001, decayEnd);
+            oscillator.connect(envelope);
+            envelope.connect(output);
+            oscillator.start(startAt);
+            oscillator.stop(decayEnd + 0.02);
+        });
+    }
+
+    async function playIntervalSemitones(semitones, baseMidi, feedbackId) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const feedback = document.getElementById(feedbackId);
+        if (!AudioContextClass) {
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Ta przeglądarka nie obsługuje odtwarzania dźwięku.';
+            return;
+        }
+
+        try {
+            if (!intervalAudioContext) intervalAudioContext = new AudioContextClass();
+            if (intervalAudioContext.state === 'suspended') await intervalAudioContext.resume();
+
+            const masterGain = intervalAudioContext.createGain();
+            masterGain.gain.setValueAtTime(0.3, intervalAudioContext.currentTime);
+            masterGain.connect(intervalAudioContext.destination);
+
+            const startAt = intervalAudioContext.currentTime + 0.04;
+            schedulePianoTone(baseMidi, startAt, masterGain);
+            schedulePianoTone(baseMidi + semitones, startAt + 0.78, masterGain);
+        } catch (error) {
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Nie udało się odtworzyć dźwięku. Spróbuj ponownie.';
+        }
+    }
+
+    function playCurrentInterval() {
+        const question = intervalQuestions[intervalQuestionIndex];
+        if (!question) return;
+        playIntervalSemitones(question.semitones, intervalBaseMidi, 'interval-feedback');
+    }
+
+    function normalizeIntervalName(value) {
+        return value
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s*([<>])\s*/g, '$1')
+            .replace(/[–—-]/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+    }
+
+    function matchesIntervalAnswer(value, correctInterval) {
+        const answer = normalizeIntervalName(value);
+        const correctName = normalizeIntervalName(correctInterval.name);
+        const reversedName = correctName.split(' ').reverse().join(' ');
+        const aliases = correctInterval.aliases || [];
+        const acceptedAnswers = [
+            correctName,
+            reversedName,
+            normalizeIntervalName(`${correctInterval.notation} ${correctInterval.name}`),
+            normalizeIntervalName(`${correctInterval.name} ${correctInterval.notation}`),
+            ...aliases.flatMap(alias => [
+                normalizeIntervalName(alias),
+                normalizeIntervalName(`${correctInterval.notation} ${alias}`),
+                normalizeIntervalName(`${alias} ${correctInterval.notation}`)
+            ])
+        ];
+        return acceptedAnswers.includes(answer);
+    }
+
+    function submitOpenIntervalAnswer() {
+        const input = document.getElementById('interval-answer-input');
+        const answer = normalizeIntervalName(input.value);
+        if (!answer) {
+            const feedback = document.getElementById('interval-feedback');
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Wpisz nazwę interwału.';
+            input.focus();
+            return;
+        }
+
+        const correctInterval = intervalQuestions[intervalQuestionIndex];
+        const isCorrect = matchesIntervalAnswer(input.value, correctInterval);
+        answerIntervalQuestion(isCorrect ? correctInterval.semitones : null);
+    }
+
+    function answerIntervalQuestion(selectedSemitones, selectedButton) {
+        if (intervalAnswered) return;
+        intervalAnswered = true;
+
+        const correctInterval = intervalQuestions[intervalQuestionIndex];
+        const isCorrect = selectedSemitones === correctInterval.semitones;
+        if (isCorrect) intervalScore++;
+
+        if (intervalQuestionMode === 'closed') {
+            document.querySelectorAll('#interval-answer-grid .music-answer').forEach(button => {
+                button.disabled = true;
+                if (Number(button.dataset.interval) === correctInterval.semitones) {
+                    button.classList.add('correct');
+                }
+            });
+            if (!isCorrect && selectedButton) selectedButton.classList.add('wrong');
+        } else {
+            document.getElementById('interval-answer-input').disabled = true;
+            document.querySelector('#interval-open-answer button').disabled = true;
+        }
+
+        const feedback = document.getElementById('interval-feedback');
+        feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+        feedback.textContent = isCorrect
+            ? 'Dobrze! Rozpoznano interwał.'
+            : `Poprawna odpowiedź: ${correctInterval.name}.`;
+
+        document.getElementById('interval-status').textContent =
+            `Pytanie ${intervalQuestionIndex + 1} z ${intervalQuestions.length} · Wynik: ${intervalScore}`;
+        const nextButton = document.getElementById('interval-next-btn');
+        nextButton.textContent = intervalQuestionIndex === intervalQuestions.length - 1
+            ? 'Zobacz wynik'
+            : 'Następne pytanie';
+        nextButton.style.display = 'block';
+    }
+
+    function nextIntervalQuestion() {
+        if (intervalQuestionIndex < intervalQuestions.length - 1) {
+            intervalQuestionIndex++;
+            loadIntervalQuestion();
+            return;
+        }
+
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+        document.getElementById('interval-test-view').style.display = 'none';
+        document.getElementById('interval-result-panel').style.display = 'flex';
+        document.getElementById('interval-result-score').textContent =
+            `${intervalScore} / ${intervalQuestions.length}`;
     }
 
     function updateDifficultyDescription() {
