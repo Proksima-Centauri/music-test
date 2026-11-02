@@ -1979,6 +1979,7 @@
     let rhythmQuestions = [];
     let rhythmQuestionIndex = 0;
     let rhythmScore = 0;
+    let rhythmPossibleUnits = 0;
     let rhythmAnswered = false;
     let rhythmQuestionMode = 'closed';
     let rhythmBarCount = 1;
@@ -3274,6 +3275,7 @@
         }
         rhythmQuestionIndex = 0;
         rhythmScore = 0;
+        rhythmPossibleUnits = 0;
 
         document.getElementById('rhythm-learning-view').style.display = 'none';
         document.getElementById('rhythm-test-config').style.display = 'none';
@@ -3288,13 +3290,17 @@
         document.getElementById('rhythm-test-progress-container').setAttribute('aria-valuenow', percent);
     }
 
+    function getRhythmAverageScore() {
+        return rhythmPossibleUnits > 0 ? Math.round((rhythmScore / rhythmPossibleUnits) * 100) : 0;
+    }
+
     function loadRhythmQuestion() {
         const question = rhythmQuestions[rhythmQuestionIndex];
         if (!question) return;
 
         rhythmAnswered = false;
         document.getElementById('rhythm-status').textContent =
-            `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Wynik: ${rhythmScore}`;
+            `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Średni wynik: ${getRhythmAverageScore()}%`;
         document.getElementById('rhythm-feedback').textContent = '';
         document.getElementById('rhythm-feedback').className = 'music-feedback';
         document.getElementById('rhythm-next-btn').style.display = 'none';
@@ -3331,6 +3337,7 @@
             button.type = 'button';
             button.className = 'music-answer';
             button.dataset.patternId = choice.id;
+            button.rhythmEvents = choice.events;
             button.setAttribute('aria-label', `Rytm: ${choice.name}`);
             const notationFrame = document.createElement('div');
             notationFrame.className = 'rhythm-notation-frame';
@@ -3399,63 +3406,82 @@
         answerRhythmQuestion(rhythmUserEvents);
     }
 
-    function rhythmsMatch(answerEvents, correctEvents) {
-        if (answerEvents.length !== correctEvents.length) return false;
-        return answerEvents.every((event, index) => rhythmEventMatches(event, correctEvents[index]));
-    }
+    function gradeRhythmEvents(answerEvents, correctEvents, totalBeats) {
+        const beatUnit = 0.5;
+        const totalUnits = Math.round(totalBeats / beatUnit);
+        const unitMatches = [];
 
-    function rhythmEventMatches(event, correctEvent) {
-        return Boolean(correctEvent)
-            && event.beat === correctEvent.beat
-            && event.duration === correctEvent.duration
-            && Boolean(event.rest) === Boolean(correctEvent.rest);
-    }
+        for (let unit = 0; unit < totalUnits; unit++) {
+            const beat = unit * beatUnit;
+            const answerEvent = answerEvents.find(event => beat >= event.beat && beat < event.beat + event.duration);
+            const correctEvent = correctEvents.find(event => beat >= event.beat && beat < event.beat + event.duration);
+            const answerStarts = answerEvent && answerEvent.beat === beat;
+            const correctStarts = correctEvent && correctEvent.beat === beat;
+            unitMatches.push(Boolean(answerEvent) === Boolean(correctEvent)
+                && (!answerEvent || (
+                    Boolean(answerEvent.rest) === Boolean(correctEvent.rest)
+                    && Boolean(answerStarts) === Boolean(correctStarts)
+                )));
+        }
 
-    function markRhythmEvents(events, correctEvents) {
-        return events.map((event, index) => ({
-            ...event,
-            correct: rhythmEventMatches(event, correctEvents[index])
-        }));
+        const markedEvents = answerEvents.map(event => {
+            const startUnit = Math.round(event.beat / beatUnit);
+            const eventUnits = Math.max(1, Math.round(event.duration / beatUnit));
+            const correct = unitMatches
+                .slice(startUnit, startUnit + eventUnits)
+                .every(matches => matches);
+            return { ...event, correct };
+        });
+        const correctUnits = unitMatches.filter(Boolean).length;
+
+        return {
+            correctUnits,
+            totalUnits,
+            markedEvents,
+            percentage: Math.round((correctUnits / totalUnits) * 100)
+        };
     }
 
     function answerRhythmQuestion(answer, selectedButton = null) {
         if (rhythmAnswered) return;
         rhythmAnswered = true;
         const correctPattern = rhythmQuestions[rhythmQuestionIndex];
-        const isCorrect = rhythmQuestionMode === 'closed'
-            ? answer === correctPattern.id
-            : rhythmsMatch(answer, correctPattern.events);
-        if (isCorrect) rhythmScore++;
+        const answerEvents = rhythmQuestionMode === 'closed'
+            ? (selectedButton?.rhythmEvents || [])
+            : answer;
+        const grading = gradeRhythmEvents(answerEvents, correctPattern.events, rhythmBarCount * 4);
+        const isPerfect = grading.percentage === 100;
+        rhythmScore += grading.correctUnits;
+        rhythmPossibleUnits += grading.totalUnits;
 
         if (rhythmQuestionMode === 'closed') {
             document.querySelectorAll('#rhythm-answer-grid .music-answer').forEach(button => {
                 button.disabled = true;
                 const isCorrectOption = button.dataset.patternId === correctPattern.id;
                 const isSelectedOption = selectedButton === button;
-                if (isCorrectOption) button.classList.add('correct');
-                if (isSelectedOption && !isCorrectOption) button.classList.add('wrong');
 
                 if (isCorrectOption || isSelectedOption) {
-                    const pattern = RHYTHM_PATTERNS.find(item => item.id === button.dataset.patternId);
-                    const markedEvents = markRhythmEvents(pattern.events, correctPattern.events);
+                    const optionGrading = gradeRhythmEvents(button.rhythmEvents, correctPattern.events, rhythmBarCount * 4);
+                    if (isCorrectOption) button.classList.add('correct');
+                    if (isSelectedOption && !isPerfect) button.classList.add('wrong');
                     const frame = button.querySelector('.rhythm-notation-frame');
                     frame.innerHTML = '';
-                    frame.appendChild(createRhythmNotation(markedEvents));
+                    frame.appendChild(createRhythmNotation(optionGrading.markedEvents, rhythmBarCount, true));
                 }
             });
         } else {
-            rhythmUserEvents = markRhythmEvents(rhythmUserEvents, correctPattern.events);
+            rhythmUserEvents = grading.markedEvents;
             renderRhythmInputStaff();
             document.querySelectorAll('#rhythm-open-answer button').forEach(button => button.disabled = true);
         }
 
         const feedback = document.getElementById('rhythm-feedback');
-        feedback.classList.add(isCorrect ? 'correct' : 'wrong');
-        feedback.textContent = isCorrect
-            ? 'Dobrze! Rozpoznano rytm.'
-            : `Poprawny zapis to rytm „${correctPattern.name}”. Błędne elementy są czerwone, poprawne zielone.`;
+        feedback.classList.add(isPerfect ? 'correct' : 'wrong');
+        feedback.textContent = isPerfect
+            ? 'Dobrze! Cały rytm zapisany poprawnie.'
+            : `Poprawnie zapisano ${grading.percentage}% rytmu. Błędne nuty lub pauzy są czerwone, poprawne zielone.`;
         document.getElementById('rhythm-status').textContent =
-            `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Wynik: ${rhythmScore}`;
+            `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Średni wynik: ${getRhythmAverageScore()}%`;
         updateRhythmTestProgress(rhythmQuestionIndex + 1);
         const nextButton = document.getElementById('rhythm-next-btn');
         nextButton.textContent = rhythmQuestionIndex === rhythmQuestions.length - 1
@@ -3472,11 +3498,10 @@
         }
 
         if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
-        recordTestProgress('rhythm', rhythmScore, rhythmQuestions.length);
+        recordTestProgress('rhythm', rhythmScore, rhythmPossibleUnits);
         document.getElementById('rhythm-test-view').style.display = 'none';
         document.getElementById('rhythm-result-panel').style.display = 'flex';
-        document.getElementById('rhythm-result-score').textContent =
-            `${rhythmScore} / ${rhythmQuestions.length}`;
+        document.getElementById('rhythm-result-score').textContent = `${getRhythmAverageScore()}%`;
     }
 
     function updateDifficultyDescription() {
