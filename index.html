@@ -1228,6 +1228,11 @@
             <span class="menu-tile-title">Dyktando rytmiczne</span>
             <span class="menu-tile-description">Ćwicz rozpoznawanie rytmów ze słuchu.</span>
         </button>
+        <button class="menu-tile" type="button" onclick="openModule('melodic-rhythm')">
+            <span class="menu-tile-icon" aria-hidden="true">🎼</span>
+            <span class="menu-tile-title">Dyktando melodyczno-rytmiczne</span>
+            <span class="menu-tile-description">Rozpoznawaj rytm i wysokość dźwięków zapisanych na pięciolinii.</span>
+        </button>
     </div>
 
     <div class="menu-utility-actions">
@@ -1570,6 +1575,7 @@
             <option value="triads">Trójdźwięki</option>
             <option value="scales">Gamy</option>
             <option value="rhythm">Dyktando rytmiczne</option>
+            <option value="melodic-rhythm">Dyktando melodyczno-rytmiczne</option>
         </select>
     </div>
 
@@ -1674,6 +1680,114 @@
         <p>Twój wynik:</p>
         <div class="music-result-score" id="rhythm-result-score"></div>
         <button class="btn btn-primary" type="button" onclick="setRhythmMode('test')">Wróć do ustawień testu</button>
+    </section>
+
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
+<main class="container melodic-rhythm-screen" id="melodic-rhythm-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
+    <h1>Dyktando melodyczno-rytmiczne</h1>
+
+    <div class="main-tabs melodic-rhythm-mode-tabs">
+        <button class="tab-btn active" id="melodic-rhythm-learn-tab" type="button" onclick="setMelodicRhythmMode('learn')">📚 Tryb Nauki</button>
+        <button class="tab-btn" id="melodic-rhythm-test-tab" type="button" onclick="setMelodicRhythmMode('test')">📝 Tryb Testu</button>
+    </div>
+
+    <section id="melodic-rhythm-learning-view">
+        <p class="music-status">Posłuchaj wzorca rytmicznego i śledź zmiany wysokości na pięciolinii.</p>
+        <div class="interval-learning-grid" id="melodic-rhythm-learning-grid"></div>
+        <div class="music-feedback" id="melodic-rhythm-learning-feedback" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="test-config-card" id="melodic-rhythm-test-config">
+        <h2 style="color: var(--accent); text-align: center;">Personalizacja testu</h2>
+        <div class="config-group">
+            <label for="melodic-rhythm-question-count">Liczba pytań</label>
+            <select id="melodic-rhythm-question-count">
+                <option value="5">5 pytań</option>
+                <option value="8" selected>8 pytań</option>
+                <option value="12">12 pytań</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label for="melodic-rhythm-bar-count">Liczba taktów w pytaniu</label>
+            <select id="melodic-rhythm-bar-count">
+                <option value="1" selected>1 takt</option>
+                <option value="2">2 takty</option>
+                <option value="4">4 takty</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label for="melodic-rhythm-question-mode">Rodzaj pytań</label>
+            <select id="melodic-rhythm-question-mode">
+                <option value="closed" selected>Zamknięte — wybór zapisu</option>
+                <option value="open">Otwarte — zapisanie rytmu i wysokości</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="startMelodicRhythmTest()">Rozpocznij test</button>
+    </section>
+
+    <section id="melodic-rhythm-test-view" style="display: none;">
+        <div class="test-progress-bar-container" id="melodic-rhythm-progress-container" style="display: block;" role="progressbar" aria-label="Postęp dyktanda melodyczno-rytmicznego" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="test-progress-fill" id="melodic-rhythm-progress-fill"></div>
+        </div>
+        <div class="music-quiz-card">
+            <div class="music-status" id="melodic-rhythm-status" aria-live="polite"></div>
+            <h2 class="music-question-title">Zapisz usłyszany rytm i wysokości dźwięków.</h2>
+            <button class="btn btn-primary music-next-btn" type="button" onclick="playCurrentMelodicRhythm()">🔊 Odtwórz ponownie</button>
+            <div class="music-answer-grid" id="melodic-rhythm-answer-grid"></div>
+            <div class="rhythm-open-answer" id="melodic-rhythm-open-answer" style="display: none;">
+                <label class="music-answer-composer" for="melodic-rhythm-pitch">Wysokość dodawanej nuty</label>
+                <select id="melodic-rhythm-pitch" class="interval-open-input">
+                    <option value="-4">E4</option>
+                    <option value="-3">F4</option>
+                    <option value="-2">G4</option>
+                    <option value="-1">A4</option>
+                    <option value="0" selected>H4</option>
+                    <option value="1">C5</option>
+                    <option value="2">D5</option>
+                    <option value="3">E5</option>
+                    <option value="4">F5</option>
+                </select>
+                <div class="rhythm-value-toolbar">
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(4, false)">Cała · 4 miary</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(2, false)">Półnuta · 2</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(1, false)">Ćwierćnuta · 1</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(0.5, false)">Ósemka · ½</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(4, true)">Pauza całotaktowa · 4</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(2, true)">Pauza półnutowa · 2</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(1, true)">Pauza ćwierćnutowa · 1</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addMelodicRhythmEntry(0.5, true)">Pauza ósemkowa · ½</button>
+                </div>
+                <div class="rhythm-staff-frame" id="melodic-rhythm-answer-staff"></div>
+                <div class="rhythm-editor-controls">
+                    <span class="music-status" id="melodic-rhythm-beat-count">0 / 4 miary</span>
+                    <button class="rhythm-edit-btn" type="button" onclick="undoMelodicRhythmEntry()">Cofnij</button>
+                    <button class="rhythm-edit-btn" type="button" onclick="clearMelodicRhythmEntry()">Wyczyść</button>
+                </div>
+                <button class="btn btn-primary music-next-btn" type="button" onclick="submitOpenMelodicRhythmAnswer()">Sprawdź odpowiedź</button>
+            </div>
+            <div class="music-feedback" id="melodic-rhythm-feedback" role="status" aria-live="polite"></div>
+            <div class="rhythm-comparison" id="melodic-rhythm-comparison">
+                <div class="rhythm-comparison-panel">
+                    <span class="rhythm-comparison-title">Twój zapis</span>
+                    <div class="rhythm-notation-frame" id="melodic-rhythm-user-comparison"></div>
+                </div>
+                <div class="rhythm-comparison-panel">
+                    <span class="rhythm-comparison-title">Poprawny zapis</span>
+                    <div class="rhythm-notation-frame" id="melodic-rhythm-correct-comparison"></div>
+                </div>
+            </div>
+            <button class="btn btn-primary music-next-btn" id="melodic-rhythm-next-btn" type="button" onclick="nextMelodicRhythmQuestion()" style="display: none;">Następne pytanie</button>
+        </div>
+    </section>
+
+    <section class="music-result-panel" id="melodic-rhythm-result-panel" style="display: none;">
+        <h2>Dyktando zakończone</h2>
+        <p>Twój wynik:</p>
+        <div class="music-result-score" id="melodic-rhythm-result-score"></div>
+        <button class="btn btn-primary" type="button" onclick="setMelodicRhythmMode('test')">Wróć do ustawień testu</button>
     </section>
 
     <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
@@ -1966,7 +2080,8 @@
         intervals: { label: 'Interwały', color: '#22c55e' },
         triads: { label: 'Trójdźwięki', color: '#f59e0b' },
         scales: { label: 'Gamy', color: '#f472b6' },
-        rhythm: { label: 'Rytm', color: '#fb7185' }
+        rhythm: { label: 'Rytm', color: '#fb7185' },
+        'melodic-rhythm': { label: 'Rytm i melodia', color: '#f97316' }
     };
 
     const ALL_BASE_NOTES = [];
@@ -2019,6 +2134,15 @@
     let rhythmBarCount = 1;
     let rhythmUserEvents = [];
     let rhythmUserBeats = 0;
+    let melodicRhythmQuestions = [];
+    let melodicRhythmQuestionIndex = 0;
+    let melodicRhythmScore = 0;
+    let melodicRhythmPossibleUnits = 0;
+    let melodicRhythmAnswered = false;
+    let melodicRhythmQuestionMode = 'closed';
+    let melodicRhythmBarCount = 1;
+    let melodicRhythmUserEvents = [];
+    let melodicRhythmUserBeats = 0;
     let progressHistory = [];
     try {
         const storedProgress = JSON.parse(localStorage.getItem('musicAppTestProgress') || '[]');
@@ -2062,18 +2186,21 @@
 
     function openModule(moduleName) {
         const isTheoryModule = moduleName === 'triads' || moduleName === 'scales';
+        const isMelodicRhythmModule = moduleName === 'melodic-rhythm';
         document.getElementById('home-screen').style.display = 'none';
         document.getElementById('notes-screen').style.display = moduleName === 'notes' ? 'flex' : 'none';
         document.getElementById('music-screen').style.display = moduleName === 'music' ? 'flex' : 'none';
         document.getElementById('interval-screen').style.display = moduleName === 'intervals' ? 'flex' : 'none';
         document.getElementById('theory-screen').style.display = isTheoryModule ? 'flex' : 'none';
         document.getElementById('rhythm-screen').style.display = moduleName === 'rhythm' ? 'flex' : 'none';
+        document.getElementById('melodic-rhythm-screen').style.display = isMelodicRhythmModule ? 'flex' : 'none';
         document.getElementById('progress-screen').style.display = moduleName === 'progress' ? 'flex' : 'none';
 
         if (moduleName === 'music') setMusicMode('learn');
         if (moduleName === 'intervals') setIntervalMode('learn');
         if (isTheoryModule) openTheoryModule(moduleName);
         if (moduleName === 'rhythm') openRhythmModule();
+        if (isMelodicRhythmModule) openMelodicRhythmModule();
         if (moduleName === 'progress') renderProgressChart();
     }
 
@@ -2090,6 +2217,7 @@
         document.getElementById('interval-screen').style.display = 'none';
         document.getElementById('theory-screen').style.display = 'none';
         document.getElementById('rhythm-screen').style.display = 'none';
+        document.getElementById('melodic-rhythm-screen').style.display = 'none';
         document.getElementById('progress-screen').style.display = 'none';
         if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
     }
@@ -3170,12 +3298,15 @@
         }
         add('text', { x: 13, y: 45, fill: '#0f172a', 'font-size': 16, 'font-family': 'serif', 'font-weight': 'bold' }).textContent = '4';
         add('text', { x: 13, y: 64, fill: '#0f172a', 'font-size': 16, 'font-family': 'serif', 'font-weight': 'bold' }).textContent = '4';
+        if (events.some(event => event.pitchStep !== undefined)) {
+            add('text', { x: 54, y: 19, fill: '#0f172a', 'font-size': 9, 'font-family': 'sans-serif', 'font-weight': 'bold' }).textContent = 'Klucz wiolinowy (G)';
+        }
 
         events.forEach(event => {
             const barIndex = Math.floor(event.beat / 4);
             const beatInBar = event.beat - barIndex * 4;
             const x = 62 + barIndex * measureWidth + beatInBar * 126;
-            const centerY = 52;
+            const centerY = 52 - (event.pitchStep || 0) * 6;
             const inkColor = event.correct === true
                 ? '#16a34a'
                 : event.correct === false ? '#dc2626' : '#0f172a';
@@ -3261,7 +3392,7 @@
             output.connect(intervalAudioContext.destination);
             const beatDuration = 60 / 90;
             const startAt = intervalAudioContext.currentTime + 0.06;
-            const dictationCountIn = feedbackId === 'rhythm-feedback';
+            const dictationCountIn = feedbackId === 'rhythm-feedback' || feedbackId === 'melodic-rhythm-feedback';
 
             if (dictationCountIn) {
                 for (let beat = 0; beat < 4; beat++) {
@@ -3275,11 +3406,11 @@
                 const accent = intervalAudioContext.createGain();
                 accent.gain.setValueAtTime(index === 0 ? 1.2 : 0.9, noteStart);
                 accent.connect(output);
-                schedulePianoTone(72, noteStart, accent, 1, event.duration * beatDuration);
+                schedulePianoTone(event.pitchMidi ?? 72, noteStart, accent, 1, event.duration * beatDuration);
             });
             feedback.className = 'music-feedback';
-            feedback.textContent = feedbackId === 'rhythm-learning-feedback'
-                ? `Odtwarzam wzorzec: ${pattern.name}.`
+            feedback.textContent = ['rhythm-learning-feedback', 'melodic-rhythm-learning-feedback'].includes(feedbackId)
+                ? 'Odtwarzam wzorzec rytmiczno-melodyczny.'
                 : '';
         } catch (error) {
             feedback.className = 'music-feedback wrong';
@@ -3479,7 +3610,7 @@
         answerRhythmQuestion(rhythmUserEvents);
     }
 
-    function gradeRhythmEvents(answerEvents, correctEvents, totalBeats) {
+    function gradeRhythmEvents(answerEvents, correctEvents, totalBeats, checkPitch = false) {
         const beatUnit = 0.5;
         const totalUnits = Math.round(totalBeats / beatUnit);
         const unitMatches = [];
@@ -3494,6 +3625,7 @@
                 && (!answerEvent || (
                     Boolean(answerEvent.rest) === Boolean(correctEvent.rest)
                     && Boolean(answerStarts) === Boolean(correctStarts)
+                    && (answerEvent.rest || !checkPitch || answerEvent.pitchStep === correctEvent.pitchStep)
                 )));
         }
 
@@ -3576,6 +3708,304 @@
         document.getElementById('rhythm-test-view').style.display = 'none';
         document.getElementById('rhythm-result-panel').style.display = 'flex';
         document.getElementById('rhythm-result-score').textContent = `${getRhythmAverageScore()}%`;
+    }
+
+    function generateMelodicRhythm(barCount, name = 'Losowy wzorzec') {
+        const rhythm = generateRandomRhythm(barCount);
+        const diatonicSemitones = [-7, -6, -4, -2, 0, 1, 3, 5, 6];
+        const events = rhythm.events.map(event => {
+            if (event.rest) return { ...event };
+            const pitchStep = Math.floor(Math.random() * 9) - 4;
+            return {
+                ...event,
+                pitchStep,
+                pitchMidi: 71 + diatonicSemitones[pitchStep + 4]
+            };
+        });
+
+        return {
+            id: `melodic-${Math.random()}-${Date.now()}`,
+            name: `${name} — ${barCount} ${barCount === 1 ? 'takt' : 'takty'}`,
+            events
+        };
+    }
+
+    function melodicRhythmSignature(pattern) {
+        return pattern.events.map(event =>
+            `${event.beat}:${event.duration}:${Boolean(event.rest)}:${event.pitchStep ?? ''}`
+        ).join('|');
+    }
+
+    function openMelodicRhythmModule() {
+        setMelodicRhythmMode('learn');
+    }
+
+    function setMelodicRhythmMode(mode) {
+        const isLearning = mode === 'learn';
+        document.getElementById('melodic-rhythm-learn-tab').classList.toggle('active', isLearning);
+        document.getElementById('melodic-rhythm-test-tab').classList.toggle('active', !isLearning);
+        document.getElementById('melodic-rhythm-learning-view').style.display = isLearning ? 'block' : 'none';
+        document.getElementById('melodic-rhythm-test-config').style.display = isLearning ? 'none' : 'flex';
+        document.getElementById('melodic-rhythm-test-view').style.display = 'none';
+        document.getElementById('melodic-rhythm-result-panel').style.display = 'none';
+        if (isLearning) renderMelodicRhythmLearningTiles();
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+    }
+
+    function renderMelodicRhythmLearningTiles() {
+        const grid = document.getElementById('melodic-rhythm-learning-grid');
+        grid.innerHTML = '';
+        for (let index = 0; index < 8; index++) {
+            const example = generateMelodicRhythm(1, `Przykład ${index + 1}`);
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'interval-learning-tile';
+            button.setAttribute('aria-label', `Odtwórz przykład melodyczno-rytmiczny ${index + 1}`);
+            const title = document.createElement('span');
+            title.className = 'interval-learning-name';
+            title.textContent = example.name;
+            const staffFrame = document.createElement('div');
+            staffFrame.className = 'rhythm-notation-frame';
+            staffFrame.appendChild(createRhythmNotation(example.events));
+            button.append(title, staffFrame);
+            button.addEventListener('click', () => playRhythmPattern(example, 'melodic-rhythm-learning-feedback'));
+            grid.appendChild(button);
+        }
+    }
+
+    function startMelodicRhythmTest() {
+        const questionCount = Number(document.getElementById('melodic-rhythm-question-count').value);
+        melodicRhythmBarCount = Number(document.getElementById('melodic-rhythm-bar-count').value);
+        melodicRhythmQuestionMode = document.getElementById('melodic-rhythm-question-mode').value;
+        melodicRhythmQuestions = [];
+        let previousSignature = null;
+        while (melodicRhythmQuestions.length < questionCount) {
+            let question = generateMelodicRhythm(melodicRhythmBarCount);
+            let attempts = 0;
+            while (melodicRhythmSignature(question) === previousSignature && attempts < 12) {
+                question = generateMelodicRhythm(melodicRhythmBarCount);
+                attempts++;
+            }
+            melodicRhythmQuestions.push(question);
+            previousSignature = melodicRhythmSignature(question);
+        }
+        melodicRhythmQuestionIndex = 0;
+        melodicRhythmScore = 0;
+        melodicRhythmPossibleUnits = 0;
+        document.getElementById('melodic-rhythm-learning-view').style.display = 'none';
+        document.getElementById('melodic-rhythm-test-config').style.display = 'none';
+        document.getElementById('melodic-rhythm-result-panel').style.display = 'none';
+        document.getElementById('melodic-rhythm-test-view').style.display = 'block';
+        loadMelodicRhythmQuestion();
+    }
+
+    function getMelodicRhythmAverageScore() {
+        return melodicRhythmPossibleUnits > 0
+            ? Math.round((melodicRhythmScore / melodicRhythmPossibleUnits) * 100)
+            : 0;
+    }
+
+    function updateMelodicRhythmProgress(completedQuestions) {
+        const percent = Math.round((completedQuestions / melodicRhythmQuestions.length) * 100);
+        document.getElementById('melodic-rhythm-progress-fill').style.width = `${percent}%`;
+        document.getElementById('melodic-rhythm-progress-container').setAttribute('aria-valuenow', percent);
+    }
+
+    function loadMelodicRhythmQuestion() {
+        const question = melodicRhythmQuestions[melodicRhythmQuestionIndex];
+        if (!question) return;
+
+        melodicRhythmAnswered = false;
+        document.getElementById('melodic-rhythm-status').textContent =
+            `Pytanie ${melodicRhythmQuestionIndex + 1} z ${melodicRhythmQuestions.length} · ${melodicRhythmBarCount} ${melodicRhythmBarCount === 1 ? 'takt' : 'takty'} · Średni wynik: ${getMelodicRhythmAverageScore()}%`;
+        document.getElementById('melodic-rhythm-feedback').textContent = '';
+        document.getElementById('melodic-rhythm-feedback').className = 'music-feedback';
+        document.getElementById('melodic-rhythm-next-btn').style.display = 'none';
+        document.getElementById('melodic-rhythm-comparison').style.display = 'none';
+        updateMelodicRhythmProgress(melodicRhythmQuestionIndex);
+
+        const answerGrid = document.getElementById('melodic-rhythm-answer-grid');
+        const openAnswer = document.getElementById('melodic-rhythm-open-answer');
+        answerGrid.style.display = melodicRhythmQuestionMode === 'closed' ? 'grid' : 'none';
+        openAnswer.style.display = melodicRhythmQuestionMode === 'open' ? 'flex' : 'none';
+        melodicRhythmUserEvents = [];
+        melodicRhythmUserBeats = 0;
+        renderMelodicRhythmInputStaff();
+        updateMelodicRhythmBeatCounter();
+        openAnswer.querySelectorAll('button').forEach(button => button.disabled = false);
+
+        const choices = [];
+        const signatures = new Set([melodicRhythmSignature(question)]);
+        if (melodicRhythmQuestionMode === 'closed') {
+            let attempts = 0;
+            while (choices.length < 3 && attempts < 100) {
+                const distractor = generateMelodicRhythm(melodicRhythmBarCount);
+                const signature = melodicRhythmSignature(distractor);
+                if (!signatures.has(signature)) {
+                    signatures.add(signature);
+                    choices.push(distractor);
+                }
+                attempts++;
+            }
+            choices.push(question);
+        }
+
+        answerGrid.innerHTML = '';
+        shuffleItems(choices).forEach(choice => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'music-answer';
+            button.dataset.patternId = choice.id;
+            button.melodicEvents = choice.events;
+            button.setAttribute('aria-label', `Wzorzec melodyczno-rytmiczny: ${choice.name}`);
+            const frame = document.createElement('div');
+            frame.className = 'rhythm-notation-frame';
+            frame.appendChild(createRhythmNotation(choice.events, melodicRhythmBarCount, true));
+            button.appendChild(frame);
+            button.addEventListener('click', () => answerMelodicRhythmQuestion(choice.id, button));
+            answerGrid.appendChild(button);
+        });
+    }
+
+    function renderMelodicRhythmInputStaff() {
+        const frame = document.getElementById('melodic-rhythm-answer-staff');
+        frame.innerHTML = '';
+        frame.appendChild(createRhythmNotation(melodicRhythmUserEvents, melodicRhythmBarCount, true));
+    }
+
+    function updateMelodicRhythmBeatCounter() {
+        document.getElementById('melodic-rhythm-beat-count').textContent =
+            `${melodicRhythmUserBeats} / ${melodicRhythmBarCount * 4} miar`;
+    }
+
+    function addMelodicRhythmEntry(duration, isRest) {
+        if (melodicRhythmAnswered) return;
+        if (melodicRhythmUserBeats + duration > melodicRhythmBarCount * 4) {
+            document.getElementById('melodic-rhythm-feedback').className = 'music-feedback wrong';
+            document.getElementById('melodic-rhythm-feedback').textContent = 'Wybrana wartość przekracza ustawioną liczbę taktów.';
+            return;
+        }
+
+        const event = { beat: melodicRhythmUserBeats, duration, rest: isRest };
+        if (!isRest) {
+            const pitchStep = Number(document.getElementById('melodic-rhythm-pitch').value);
+            const diatonicSemitones = [-7, -6, -4, -2, 0, 1, 3, 5, 6];
+            event.pitchStep = pitchStep;
+            event.pitchMidi = 71 + diatonicSemitones[pitchStep + 4];
+        }
+        melodicRhythmUserEvents.push(event);
+        melodicRhythmUserBeats += duration;
+        document.getElementById('melodic-rhythm-feedback').textContent = '';
+        document.getElementById('melodic-rhythm-feedback').className = 'music-feedback';
+        renderMelodicRhythmInputStaff();
+        updateMelodicRhythmBeatCounter();
+    }
+
+    function undoMelodicRhythmEntry() {
+        if (melodicRhythmAnswered || melodicRhythmUserEvents.length === 0) return;
+        const removed = melodicRhythmUserEvents.pop();
+        melodicRhythmUserBeats -= removed.duration;
+        renderMelodicRhythmInputStaff();
+        updateMelodicRhythmBeatCounter();
+    }
+
+    function clearMelodicRhythmEntry() {
+        if (melodicRhythmAnswered) return;
+        melodicRhythmUserEvents = [];
+        melodicRhythmUserBeats = 0;
+        renderMelodicRhythmInputStaff();
+        updateMelodicRhythmBeatCounter();
+    }
+
+    function playCurrentMelodicRhythm() {
+        const question = melodicRhythmQuestions[melodicRhythmQuestionIndex];
+        if (question) playRhythmPattern(question, 'melodic-rhythm-feedback');
+    }
+
+    function submitOpenMelodicRhythmAnswer() {
+        if (melodicRhythmUserBeats !== melodicRhythmBarCount * 4) {
+            const feedback = document.getElementById('melodic-rhythm-feedback');
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = `Uzupełnij wszystkie ${melodicRhythmBarCount} ${melodicRhythmBarCount === 1 ? 'takt' : 'takty'} przed sprawdzeniem.`;
+            return;
+        }
+        answerMelodicRhythmQuestion(melodicRhythmUserEvents);
+    }
+
+    function answerMelodicRhythmQuestion(answer, selectedButton = null) {
+        if (melodicRhythmAnswered) return;
+        melodicRhythmAnswered = true;
+        const correctPattern = melodicRhythmQuestions[melodicRhythmQuestionIndex];
+        const answerEvents = melodicRhythmQuestionMode === 'closed'
+            ? (selectedButton?.melodicEvents || [])
+            : answer;
+        const grading = gradeRhythmEvents(answerEvents, correctPattern.events, melodicRhythmBarCount * 4, true);
+        const isPerfect = grading.percentage === 100;
+        melodicRhythmScore += grading.correctUnits;
+        melodicRhythmPossibleUnits += grading.totalUnits;
+
+        if (melodicRhythmQuestionMode === 'closed') {
+            document.querySelectorAll('#melodic-rhythm-answer-grid .music-answer').forEach(button => {
+                button.disabled = true;
+                const isCorrectOption = button.dataset.patternId === correctPattern.id;
+                const isSelectedOption = button === selectedButton;
+                if (isCorrectOption) button.classList.add('correct');
+                if (isSelectedOption && !isPerfect) button.classList.add('wrong');
+                if (isCorrectOption || isSelectedOption) {
+                    const optionGrade = gradeRhythmEvents(button.melodicEvents, correctPattern.events, melodicRhythmBarCount * 4, true);
+                    const frame = button.querySelector('.rhythm-notation-frame');
+                    frame.innerHTML = '';
+                    frame.appendChild(createRhythmNotation(optionGrade.markedEvents, melodicRhythmBarCount, true));
+                }
+            });
+        } else {
+            melodicRhythmUserEvents = grading.markedEvents;
+            renderMelodicRhythmInputStaff();
+            document.querySelectorAll('#melodic-rhythm-open-answer button').forEach(button => button.disabled = true);
+        }
+
+        renderMelodicRhythmComparison(grading.markedEvents, correctPattern.events);
+        const feedback = document.getElementById('melodic-rhythm-feedback');
+        feedback.classList.add(isPerfect ? 'correct' : 'wrong');
+        feedback.textContent = isPerfect
+            ? 'Dobrze! Rytm i wysokości są poprawne.'
+            : `Poprawnie zapisano ${grading.percentage}% rytmu i wysokości. Błędne elementy są czerwone, poprawne zielone.`;
+        document.getElementById('melodic-rhythm-status').textContent =
+            `Pytanie ${melodicRhythmQuestionIndex + 1} z ${melodicRhythmQuestions.length} · ${melodicRhythmBarCount} ${melodicRhythmBarCount === 1 ? 'takt' : 'takty'} · Średni wynik: ${getMelodicRhythmAverageScore()}%`;
+        updateMelodicRhythmProgress(melodicRhythmQuestionIndex + 1);
+        const nextButton = document.getElementById('melodic-rhythm-next-btn');
+        nextButton.textContent = melodicRhythmQuestionIndex === melodicRhythmQuestions.length - 1
+            ? 'Zobacz wynik'
+            : 'Następne pytanie';
+        nextButton.style.display = 'block';
+    }
+
+    function renderMelodicRhythmComparison(answerEvents, correctEvents) {
+        const userFrame = document.getElementById('melodic-rhythm-user-comparison');
+        const correctFrame = document.getElementById('melodic-rhythm-correct-comparison');
+        userFrame.innerHTML = '';
+        correctFrame.innerHTML = '';
+        userFrame.appendChild(createRhythmNotation(answerEvents, melodicRhythmBarCount, true));
+        correctFrame.appendChild(createRhythmNotation(
+            correctEvents.map(event => ({ ...event, correct: true })),
+            melodicRhythmBarCount,
+            true
+        ));
+        document.getElementById('melodic-rhythm-comparison').style.display = 'grid';
+    }
+
+    function nextMelodicRhythmQuestion() {
+        if (melodicRhythmQuestionIndex < melodicRhythmQuestions.length - 1) {
+            melodicRhythmQuestionIndex++;
+            loadMelodicRhythmQuestion();
+            return;
+        }
+
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+        recordTestProgress('melodic-rhythm', melodicRhythmScore, melodicRhythmPossibleUnits);
+        document.getElementById('melodic-rhythm-test-view').style.display = 'none';
+        document.getElementById('melodic-rhythm-result-panel').style.display = 'flex';
+        document.getElementById('melodic-rhythm-result-score').textContent = `${getMelodicRhythmAverageScore()}%`;
     }
 
     function updateDifficultyDescription() {
