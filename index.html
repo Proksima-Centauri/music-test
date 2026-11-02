@@ -3401,12 +3401,21 @@
 
     function rhythmsMatch(answerEvents, correctEvents) {
         if (answerEvents.length !== correctEvents.length) return false;
-        return answerEvents.every((event, index) => {
-            const correct = correctEvents[index];
-            return event.beat === correct.beat
-                && event.duration === correct.duration
-                && Boolean(event.rest) === Boolean(correct.rest);
-        });
+        return answerEvents.every((event, index) => rhythmEventMatches(event, correctEvents[index]));
+    }
+
+    function rhythmEventMatches(event, correctEvent) {
+        return Boolean(correctEvent)
+            && event.beat === correctEvent.beat
+            && event.duration === correctEvent.duration
+            && Boolean(event.rest) === Boolean(correctEvent.rest);
+    }
+
+    function markRhythmEvents(events, correctEvents) {
+        return events.map((event, index) => ({
+            ...event,
+            correct: rhythmEventMatches(event, correctEvents[index])
+        }));
     }
 
     function answerRhythmQuestion(answer, selectedButton = null) {
@@ -3428,17 +3437,14 @@
 
                 if (isCorrectOption || isSelectedOption) {
                     const pattern = RHYTHM_PATTERNS.find(item => item.id === button.dataset.patternId);
-                    const markedEvents = pattern.events.map(event => ({
-                        ...event,
-                        correct: isCorrectOption
-                    }));
+                    const markedEvents = markRhythmEvents(pattern.events, correctPattern.events);
                     const frame = button.querySelector('.rhythm-notation-frame');
                     frame.innerHTML = '';
                     frame.appendChild(createRhythmNotation(markedEvents));
                 }
             });
         } else {
-            rhythmUserEvents = rhythmUserEvents.map(event => ({ ...event, correct: isCorrect }));
+            rhythmUserEvents = markRhythmEvents(rhythmUserEvents, correctPattern.events);
             renderRhythmInputStaff();
             document.querySelectorAll('#rhythm-open-answer button').forEach(button => button.disabled = true);
         }
@@ -3447,7 +3453,7 @@
         feedback.classList.add(isCorrect ? 'correct' : 'wrong');
         feedback.textContent = isCorrect
             ? 'Dobrze! Rozpoznano rytm.'
-            : `Poprawny zapis to rytm „${correctPattern.name}”. Zaznaczone nuty są na czerwono.`;
+            : `Poprawny zapis to rytm „${correctPattern.name}”. Błędne elementy są czerwone, poprawne zielone.`;
         document.getElementById('rhythm-status').textContent =
             `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Wynik: ${rhythmScore}`;
         updateRhythmTestProgress(rhythmQuestionIndex + 1);
