@@ -3630,11 +3630,11 @@
         }
 
         const markedEvents = answerEvents.map(event => {
-            const startUnit = Math.round(event.beat / beatUnit);
-            const eventUnits = Math.max(1, Math.round(event.duration / beatUnit));
-            const correct = unitMatches
-                .slice(startUnit, startUnit + eventUnits)
-                .every(matches => matches);
+            const correctEvent = correctEvents.find(candidate => candidate.beat === event.beat);
+            const correct = Boolean(correctEvent)
+                && event.duration === correctEvent.duration
+                && Boolean(event.rest) === Boolean(correctEvent.rest)
+                && (event.rest || !checkPitch || event.pitchStep === correctEvent.pitchStep);
             return { ...event, correct };
         });
         const correctUnits = unitMatches.filter(Boolean).length;
