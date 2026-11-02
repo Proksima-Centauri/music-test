@@ -836,6 +836,25 @@
             margin-right: auto;
         }
 
+        .rhythm-comparison {
+            display: none;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .rhythm-comparison-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 0;
+        }
+
+        .rhythm-comparison-title {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 800;
+        }
+
         /* Sekcja Konfiguracji Testu */
         .test-config-card {
             display: none;
@@ -1048,6 +1067,10 @@
 
             .rhythm-value-toolbar {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .rhythm-comparison {
+                grid-template-columns: 1fr;
             }
 
             h1 {
@@ -1631,6 +1654,16 @@
                 <button class="btn btn-primary music-next-btn" type="button" onclick="submitOpenRhythmAnswer()">Sprawdź odpowiedź</button>
             </div>
             <div class="music-feedback" id="rhythm-feedback" role="status" aria-live="polite"></div>
+            <div class="rhythm-comparison" id="rhythm-comparison">
+                <div class="rhythm-comparison-panel">
+                    <span class="rhythm-comparison-title">Twój zapis</span>
+                    <div class="rhythm-notation-frame" id="rhythm-user-comparison"></div>
+                </div>
+                <div class="rhythm-comparison-panel">
+                    <span class="rhythm-comparison-title">Poprawny zapis</span>
+                    <div class="rhythm-notation-frame" id="rhythm-correct-comparison"></div>
+                </div>
+            </div>
             <button class="btn btn-primary music-next-btn" id="rhythm-next-btn" type="button" onclick="nextRhythmQuestion()" style="display: none;">Następne pytanie</button>
         </div>
     </section>
@@ -3303,6 +3336,7 @@
             `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Średni wynik: ${getRhythmAverageScore()}%`;
         document.getElementById('rhythm-feedback').textContent = '';
         document.getElementById('rhythm-feedback').className = 'music-feedback';
+        document.getElementById('rhythm-comparison').style.display = 'none';
         document.getElementById('rhythm-next-btn').style.display = 'none';
         updateRhythmTestProgress(rhythmQuestionIndex);
 
@@ -3352,6 +3386,21 @@
         const frame = document.getElementById('rhythm-answer-staff');
         frame.innerHTML = '';
         frame.appendChild(createRhythmNotation(rhythmUserEvents, rhythmBarCount, true));
+    }
+
+    function renderRhythmComparison(answerEvents, correctEvents) {
+        const userFrame = document.getElementById('rhythm-user-comparison');
+        const correctFrame = document.getElementById('rhythm-correct-comparison');
+        userFrame.innerHTML = '';
+        correctFrame.innerHTML = '';
+
+        userFrame.appendChild(createRhythmNotation(answerEvents, rhythmBarCount, true));
+        correctFrame.appendChild(createRhythmNotation(
+            correctEvents.map(event => ({ ...event, correct: true })),
+            rhythmBarCount,
+            true
+        ));
+        document.getElementById('rhythm-comparison').style.display = 'grid';
     }
 
     function updateRhythmBeatCounter() {
@@ -3453,6 +3502,7 @@
         const isPerfect = grading.percentage === 100;
         rhythmScore += grading.correctUnits;
         rhythmPossibleUnits += grading.totalUnits;
+        renderRhythmComparison(grading.markedEvents, correctPattern.events);
 
         if (rhythmQuestionMode === 'closed') {
             document.querySelectorAll('#rhythm-answer-grid .music-answer').forEach(button => {
