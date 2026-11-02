@@ -1631,6 +1631,7 @@
         <div class="music-quiz-card">
             <div class="music-status" id="rhythm-status" aria-live="polite"></div>
             <h2 class="music-question-title">Który zapis odpowiada usłyszanemu rytmowi?</h2>
+            <p class="music-answer-composer" style="text-align: center;">Przed rytmem usłyszysz jeden pusty takt 4/4 odliczany ćwierćnutami.</p>
             <button class="btn btn-primary music-next-btn" type="button" onclick="playCurrentRhythm()">🔊 Odtwórz rytm</button>
             <div class="music-answer-grid" id="rhythm-answer-grid"></div>
             <div class="rhythm-open-answer" id="rhythm-open-answer" style="display: none;">
@@ -3226,6 +3227,21 @@
         return svg;
     }
 
+    function scheduleMetronomeClick(startAt, accented, output) {
+        const oscillator = intervalAudioContext.createOscillator();
+        const envelope = intervalAudioContext.createGain();
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(accented ? 1450 : 980, startAt);
+        oscillator.frequency.exponentialRampToValueAtTime(accented ? 760 : 560, startAt + 0.045);
+        envelope.gain.setValueAtTime(0.0001, startAt);
+        envelope.gain.exponentialRampToValueAtTime(accented ? 0.36 : 0.24, startAt + 0.003);
+        envelope.gain.exponentialRampToValueAtTime(0.0001, startAt + 0.065);
+        oscillator.connect(envelope);
+        envelope.connect(output);
+        oscillator.start(startAt);
+        oscillator.stop(startAt + 0.07);
+    }
+
     async function playRhythmPattern(pattern, feedbackId) {
         const AudioContextClass = window.AudioContext || window.webkitAudioContext;
         const feedback = document.getElementById(feedbackId);
@@ -3245,9 +3261,17 @@
             output.connect(intervalAudioContext.destination);
             const beatDuration = 60 / 90;
             const startAt = intervalAudioContext.currentTime + 0.06;
+            const dictationCountIn = feedbackId === 'rhythm-feedback';
+
+            if (dictationCountIn) {
+                for (let beat = 0; beat < 4; beat++) {
+                    scheduleMetronomeClick(startAt + beat * beatDuration, beat === 0, output);
+                }
+            }
+            const patternStartAt = startAt + (dictationCountIn ? 4 * beatDuration : 0);
 
             pattern.events.filter(event => !event.rest).forEach((event, index) => {
-                const noteStart = startAt + event.beat * beatDuration;
+                const noteStart = patternStartAt + event.beat * beatDuration;
                 const accent = intervalAudioContext.createGain();
                 accent.gain.setValueAtTime(index === 0 ? 1.2 : 0.9, noteStart);
                 accent.connect(output);
