@@ -2911,7 +2911,9 @@
                 });
             }
             feedback.className = 'music-feedback';
-            feedback.textContent = `Odtwarzam: ${item.name}.`;
+            feedback.textContent = feedbackId === 'theory-learning-feedback'
+                ? `Odtwarzam: ${item.name}.`
+                : '';
         } catch (error) {
             feedback.className = 'music-feedback wrong';
             feedback.textContent = 'Nie udało się odtworzyć dźwięku. Spróbuj ponownie.';
@@ -3218,7 +3220,9 @@
                 schedulePianoTone(72, noteStart, accent, 1, event.duration * beatDuration);
             });
             feedback.className = 'music-feedback';
-            feedback.textContent = `Odtwarzam rytm: ${pattern.name}.`;
+            feedback.textContent = feedbackId === 'rhythm-learning-feedback'
+                ? `Odtwarzam wzorzec: ${pattern.name}.`
+                : '';
         } catch (error) {
             feedback.className = 'music-feedback wrong';
             feedback.textContent = 'Nie udało się odtworzyć rytmu. Spróbuj ponownie.';
