@@ -1,0 +1,10 @@
+The piano sample bank (piano_notes.wav) was rendered from TimGM6mb.sf2 using FluidSynth.
+
+SoundFont: TimGM6mb.sf2
+SoundFont authors: Tim Brechbill and David Bolton
+SoundFont license: GNU General Public License, version 2 (GPL-2.0)
+License text: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+
+The original SoundFont is not bundled in this repository. The generated sample bank
+is provided under GPL-2.0. To regenerate it, install pyfluidsynth and numpy, then run
+generate_piano_samples.py with a compatible local SoundFont file.

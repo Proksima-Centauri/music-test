@@ -443,6 +443,117 @@
             line-height: 1.45;
         }
 
+        .menu-utility-actions {
+            display: flex;
+            justify-content: center;
+        }
+
+        .progress-menu-btn {
+            min-height: 46px;
+            padding: 10px 22px;
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent);
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .progress-menu-btn:hover {
+            background: rgba(56, 189, 248, 0.22);
+        }
+
+        .progress-filter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            background: #0f172a;
+        }
+
+        .progress-filter label {
+            color: var(--text-muted);
+            font-weight: 700;
+        }
+
+        .progress-chart-scroll {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 12px;
+            background: #0f172a;
+        }
+
+        .progress-chart {
+            display: block;
+            width: 100%;
+            min-width: 620px;
+            height: auto;
+        }
+
+        .progress-chart-grid {
+            stroke: #334155;
+            stroke-width: 1;
+        }
+
+        .progress-chart-axis {
+            stroke: #94a3b8;
+            stroke-width: 1.5;
+        }
+
+        .progress-chart-label {
+            fill: #94a3b8;
+            font: 12px 'Segoe UI', sans-serif;
+        }
+
+        .progress-chart-axis-title {
+            fill: #f8fafc;
+            font: 600 13px 'Segoe UI', sans-serif;
+        }
+
+        .progress-chart-line {
+            fill: none;
+            stroke: #38bdf8;
+            stroke-width: 2.5;
+            opacity: 0.75;
+        }
+
+        .progress-chart-point {
+            stroke: #0f172a;
+            stroke-width: 2;
+        }
+
+        .progress-chart-empty {
+            padding: 36px 18px;
+            border: 1px dashed #475569;
+            border-radius: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .progress-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 16px;
+        }
+
+        .progress-legend-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .progress-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
         .back-menu-btn {
             align-self: flex-start;
             min-height: 42px;
@@ -669,6 +780,62 @@
             outline: 2px solid rgba(56, 189, 248, 0.2);
         }
 
+        .rhythm-notation-frame {
+            width: 100%;
+            overflow-x: auto;
+            padding: 8px;
+            border-radius: 8px;
+            background: #f8fafc;
+        }
+
+        .rhythm-notation-svg {
+            display: block;
+            width: 100%;
+            min-width: 300px;
+            height: auto;
+        }
+
+        .rhythm-open-answer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .rhythm-value-toolbar {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .rhythm-value-btn,
+        .rhythm-edit-btn {
+            min-height: 42px;
+            padding: 8px 10px;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            background: #1e293b;
+            color: var(--text);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .rhythm-value-btn:hover,
+        .rhythm-edit-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .rhythm-editor-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rhythm-editor-controls .music-status {
+            margin-right: auto;
+        }
+
         /* Sekcja Konfiguracji Testu */
         .test-config-card {
             display: none;
@@ -851,6 +1018,11 @@
                 gap: 18px;
             }
 
+            .progress-filter {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
             .menu-tiles,
             .music-learning-grid,
             .music-answer-grid {
@@ -872,6 +1044,10 @@
 
             .music-answer {
                 min-height: 58px;
+            }
+
+            .rhythm-value-toolbar {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             h1 {
@@ -1014,6 +1190,25 @@
             <span class="menu-tile-title">Rozpoznawanie interwałów</span>
             <span class="menu-tile-description">Rozpoznawaj ze słuchu odległości między dwoma dźwiękami.</span>
         </button>
+        <button class="menu-tile" type="button" onclick="openModule('triads')">
+            <span class="menu-tile-icon" aria-hidden="true">🎶</span>
+            <span class="menu-tile-title">Rozpoznawanie trójdźwięków</span>
+            <span class="menu-tile-description">Ucz się i rozpoznawaj ze słuchu rodzaje akordów.</span>
+        </button>
+        <button class="menu-tile" type="button" onclick="openModule('scales')">
+            <span class="menu-tile-icon" aria-hidden="true">🎹</span>
+            <span class="menu-tile-title">Rozpoznawanie gam</span>
+            <span class="menu-tile-description">Poznawaj i rozpoznawaj różne rodzaje gam.</span>
+        </button>
+        <button class="menu-tile" type="button" onclick="openModule('rhythm')">
+            <span class="menu-tile-icon" aria-hidden="true">🥁</span>
+            <span class="menu-tile-title">Dyktando rytmiczne</span>
+            <span class="menu-tile-description">Ćwicz rozpoznawanie rytmów ze słuchu.</span>
+        </button>
+    </div>
+
+    <div class="menu-utility-actions">
+        <button class="progress-menu-btn" type="button" onclick="openModule('progress')">📈 Progres</button>
     </div>
 
     <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
@@ -1162,7 +1357,31 @@
         <div class="music-learning-grid" id="music-learning-grid"></div>
     </section>
 
-    <section id="music-quiz-content">
+    <section class="test-config-card music-test-config" id="music-test-config">
+        <h2 style="color: var(--accent); text-align: center;">Personalizacja testu</h2>
+        <div class="config-group">
+            <label for="music-question-count">Liczba pytań</label>
+            <select id="music-question-count">
+                <option value="5">5 pytań</option>
+                <option value="10" selected>10 pytań</option>
+                <option value="15">15 pytań</option>
+                <option value="20">20 pytań (wszystkie utwory)</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label for="music-question-mode">Rodzaj pytań</label>
+            <select id="music-question-mode">
+                <option value="closed" selected>Zamknięte — wybór kafelka</option>
+                <option value="open">Otwarte — wpisanie tytułu</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="startMusicQuiz()">Rozpocznij test</button>
+    </section>
+
+    <section id="music-quiz-content" style="display: none;">
+        <div class="test-progress-bar-container" id="music-test-progress-container" style="display: block;" role="progressbar" aria-label="Postęp testu z utworów" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="test-progress-fill" id="music-test-progress-fill"></div>
+        </div>
         <div class="music-quiz-card">
             <div class="music-status" id="music-status" aria-live="polite"></div>
             <h2 class="music-question-title">Jakiego utworu słuchasz?</h2>
@@ -1170,6 +1389,10 @@
                 Twoja przeglądarka nie obsługuje odtwarzania audio.
             </audio>
             <div class="music-answer-grid" id="music-answer-grid"></div>
+            <div class="interval-open-answer" id="music-open-answer" style="display: none;">
+                <input class="interval-open-input" id="music-answer-input" type="text" autocomplete="off" placeholder="Wpisz tytuł lub nazwę utworu">
+                <button class="btn btn-primary music-next-btn" type="button" onclick="submitOpenMusicAnswer()">Sprawdź odpowiedź</button>
+            </div>
             <div class="music-feedback" id="music-feedback" role="status" aria-live="polite"></div>
             <button class="btn btn-primary music-next-btn" id="music-next-btn" type="button" onclick="nextMusicQuestion()" style="display: none;">Następne nagranie</button>
         </div>
@@ -1221,6 +1444,9 @@
     </section>
 
     <section id="interval-test-view" style="display: none;">
+        <div class="test-progress-bar-container" id="interval-test-progress-container" style="display: block;" role="progressbar" aria-label="Postęp testu interwałów" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="test-progress-fill" id="interval-test-progress-fill"></div>
+        </div>
         <div class="music-quiz-card">
             <div class="music-status" id="interval-status" aria-live="polite"></div>
             <h2 class="music-question-title">Jaki interwał słyszysz?</h2>
@@ -1241,6 +1467,179 @@
         <p>Twój wynik:</p>
         <div class="music-result-score" id="interval-result-score"></div>
         <button class="btn btn-primary" type="button" onclick="setIntervalMode('test')">Wróć do ustawień testu</button>
+    </section>
+
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
+<main class="container theory-screen" id="theory-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
+    <h1 id="theory-screen-title"></h1>
+
+    <div class="main-tabs theory-mode-tabs">
+        <button class="tab-btn active" id="theory-learn-tab" type="button" onclick="setTheoryMode('learn')">📚 Tryb Nauki</button>
+        <button class="tab-btn" id="theory-test-tab" type="button" onclick="setTheoryMode('test')">📝 Tryb Testu</button>
+    </div>
+
+    <section id="theory-learning-view">
+        <p class="music-status" id="theory-learning-instruction"></p>
+        <div class="interval-learning-grid" id="theory-learning-grid"></div>
+        <div class="music-feedback" id="theory-learning-feedback" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="test-config-card" id="theory-test-config">
+        <h2 style="color: var(--accent); text-align: center;">Personalizacja testu</h2>
+        <div class="config-group">
+            <label for="theory-question-count">Liczba pytań</label>
+            <select id="theory-question-count"></select>
+        </div>
+        <div class="config-group">
+            <label for="theory-question-mode">Rodzaj pytań</label>
+            <select id="theory-question-mode">
+                <option value="closed" selected>Zamknięte — wybór kafelka</option>
+                <option value="open">Otwarte — wpisanie nazwy</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="startTheoryTest()">Rozpocznij test</button>
+    </section>
+
+    <section id="theory-test-view" style="display: none;">
+        <div class="test-progress-bar-container" id="theory-test-progress-container" style="display: block;" role="progressbar" aria-label="Postęp testu" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="test-progress-fill" id="theory-test-progress-fill"></div>
+        </div>
+        <div class="music-quiz-card">
+            <div class="music-status" id="theory-status" aria-live="polite"></div>
+            <h2 class="music-question-title" id="theory-question-title"></h2>
+            <p class="music-answer-composer" id="theory-hearing-instruction" style="text-align: center;"></p>
+            <button class="btn btn-primary music-next-btn" type="button" onclick="playCurrentTheoryQuestion()">🔊 Odtwórz ponownie</button>
+            <div class="music-answer-grid" id="theory-answer-grid"></div>
+            <div class="interval-open-answer" id="theory-open-answer" style="display: none;">
+                <input class="interval-open-input" id="theory-answer-input" type="text" autocomplete="off" placeholder="Wpisz odpowiedź">
+                <button class="btn btn-primary music-next-btn" type="button" onclick="submitOpenTheoryAnswer()">Sprawdź odpowiedź</button>
+            </div>
+            <div class="music-feedback" id="theory-feedback" role="status" aria-live="polite"></div>
+            <button class="btn btn-primary music-next-btn" id="theory-next-btn" type="button" onclick="nextTheoryQuestion()" style="display: none;">Następne pytanie</button>
+        </div>
+    </section>
+
+    <section class="music-result-panel" id="theory-result-panel" style="display: none;">
+        <h2>Test zakończony</h2>
+        <p>Twój wynik:</p>
+        <div class="music-result-score" id="theory-result-score"></div>
+        <button class="btn btn-primary" type="button" onclick="setTheoryMode('test')">Wróć do ustawień testu</button>
+    </section>
+
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
+<main class="container progress-screen" id="progress-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
+    <h1>Progres</h1>
+    <p class="music-status">Wyniki testów w czasie — oś X: czas wykonania, oś Y: wynik (%).</p>
+
+    <div class="progress-filter">
+        <label for="progress-module-filter">Pokaż moduł</label>
+        <select id="progress-module-filter" onchange="renderProgressChart()">
+            <option value="all">Wszystkie moduły</option>
+            <option value="notes">Rozpoznawanie nut</option>
+            <option value="music">Rozpoznawanie utworów</option>
+            <option value="intervals">Interwały</option>
+            <option value="triads">Trójdźwięki</option>
+            <option value="scales">Gamy</option>
+            <option value="rhythm">Dyktando rytmiczne</option>
+        </select>
+    </div>
+
+    <p class="progress-chart-empty" id="progress-chart-empty">Po ukończeniu testów pojawią się tu wyniki.</p>
+    <div class="progress-chart-scroll" id="progress-chart-scroll" style="display: none;">
+        <svg class="progress-chart" id="progress-chart" viewBox="0 0 760 430" role="img" aria-label="Wyniki testów: czas na osi poziomej, procent na osi pionowej"></svg>
+    </div>
+    <div class="progress-legend" id="progress-legend"></div>
+    <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
+</main>
+
+<main class="container rhythm-screen" id="rhythm-screen" style="display: none;">
+    <button class="back-menu-btn" type="button" onclick="returnToHome()">← Menu główne</button>
+    <h1>Dyktando rytmiczne</h1>
+
+    <div class="main-tabs rhythm-mode-tabs">
+        <button class="tab-btn active" id="rhythm-learn-tab" type="button" onclick="setRhythmMode('learn')">📚 Tryb Nauki</button>
+        <button class="tab-btn" id="rhythm-test-tab" type="button" onclick="setRhythmMode('test')">📝 Tryb Testu</button>
+    </div>
+
+    <section id="rhythm-learning-view">
+        <p class="music-status">Wszystkie przykłady są w metrum 4/4. Kliknij zapis na pięciolinii, aby posłuchać rytmu.</p>
+        <div class="interval-learning-grid" id="rhythm-learning-grid"></div>
+        <div class="music-feedback" id="rhythm-learning-feedback" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="test-config-card" id="rhythm-test-config">
+        <h2 style="color: var(--accent); text-align: center;">Personalizacja testu</h2>
+        <div class="config-group">
+            <label for="rhythm-question-count">Liczba pytań</label>
+            <select id="rhythm-question-count">
+                <option value="5">5 pytań</option>
+                <option value="8" selected>8 pytań</option>
+                <option value="12">12 pytań</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label for="rhythm-bar-count">Liczba taktów w pytaniu</label>
+            <select id="rhythm-bar-count">
+                <option value="1" selected>1 takt</option>
+                <option value="2">2 takty</option>
+                <option value="4">4 takty</option>
+            </select>
+        </div>
+        <div class="config-group">
+            <label for="rhythm-question-mode">Rodzaj pytań</label>
+            <select id="rhythm-question-mode">
+                <option value="closed" selected>Zamknięte — wybór kafelka</option>
+                <option value="open">Otwarte — wpisanie rytmu</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="button" onclick="startRhythmTest()">Rozpocznij test</button>
+    </section>
+
+    <section id="rhythm-test-view" style="display: none;">
+        <div class="test-progress-bar-container" id="rhythm-test-progress-container" style="display: block;" role="progressbar" aria-label="Postęp dyktanda rytmicznego" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="test-progress-fill" id="rhythm-test-progress-fill"></div>
+        </div>
+        <div class="music-quiz-card">
+            <div class="music-status" id="rhythm-status" aria-live="polite"></div>
+            <h2 class="music-question-title">Który zapis odpowiada usłyszanemu rytmowi?</h2>
+            <button class="btn btn-primary music-next-btn" type="button" onclick="playCurrentRhythm()">🔊 Odtwórz rytm</button>
+            <div class="music-answer-grid" id="rhythm-answer-grid"></div>
+            <div class="rhythm-open-answer" id="rhythm-open-answer" style="display: none;">
+                <p class="music-answer-composer">Ułóż rytm na pięciolinii w metrum 4/4, dodając nuty lub pauzy.</p>
+                <div class="rhythm-value-toolbar">
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(4, false)">Cała · 4 miary</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(2, false)">Półnuta · 2</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(1, false)">Ćwierćnuta · 1</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(0.5, false)">Ósemka · ½</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(4, true)">Pauza całotaktowa · 4</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(2, true)">Pauza półnutowa · 2</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(1, true)">Pauza ćwierćnutowa · 1</button>
+                    <button class="rhythm-value-btn" type="button" onclick="addRhythmEntry(0.5, true)">Pauza ósemkowa · ½</button>
+                </div>
+                <div class="rhythm-staff-frame" id="rhythm-answer-staff"></div>
+                <div class="rhythm-editor-controls">
+                    <span class="music-status" id="rhythm-beat-count">0 / 4 miary</span>
+                    <button class="rhythm-edit-btn" type="button" onclick="undoRhythmEntry()">Cofnij</button>
+                    <button class="rhythm-edit-btn" type="button" onclick="clearRhythmEntry()">Wyczyść</button>
+                </div>
+                <button class="btn btn-primary music-next-btn" type="button" onclick="submitOpenRhythmAnswer()">Sprawdź odpowiedź</button>
+            </div>
+            <div class="music-feedback" id="rhythm-feedback" role="status" aria-live="polite"></div>
+            <button class="btn btn-primary music-next-btn" id="rhythm-next-btn" type="button" onclick="nextRhythmQuestion()" style="display: none;">Następne pytanie</button>
+        </div>
+    </section>
+
+    <section class="music-result-panel" id="rhythm-result-panel" style="display: none;">
+        <h2>Dyktando zakończone</h2>
+        <p>Twój wynik:</p>
+        <div class="music-result-score" id="rhythm-result-score"></div>
+        <button class="btn btn-primary" type="button" onclick="setRhythmMode('test')">Wróć do ustawień testu</button>
     </section>
 
     <footer class="site-footer">Copyright Józef Grabowski &amp; GPT-6 Luna 2026</footer>
@@ -1467,10 +1866,74 @@
         { semitones: 7, notation: '5', name: 'Kwinta czysta', aliases: ['5'] },
         { semitones: 8, notation: '6>', name: 'Seksta mała', aliases: ['6>'] },
         { semitones: 9, notation: '6', name: 'Seksta wielka', aliases: ['6'] },
-        { semitones: 10, notation: '7>', name: 'Septyma mała', aliases: ['7>'] },
-        { semitones: 11, notation: '7', name: 'Septyma wielka', aliases: ['7'] },
+        { semitones: 10, notation: '7', name: 'Septyma mała', aliases: ['7'] },
+        { semitones: 11, notation: '7<', name: 'Septyma wielka', aliases: ['7<'] },
         { semitones: 12, notation: '8', name: 'Oktawa czysta', aliases: ['8', 'oktawa'] }
     ];
+
+    const TRIAD_TYPES = [
+        { id: 'major-root', name: 'Trójdźwięk durowy — pozycja zasadnicza', notation: '1–3–5', intervals: [0, 4, 7], aliases: ['dur pozycja zasadnicza', 'durowy zasadniczy', '+'] },
+        { id: 'major-first-inversion', name: 'Trójdźwięk durowy — pierwszy przewrót', notation: '3–5–1', intervals: [4, 7, 12], aliases: ['dur pierwszy przewrót', 'durowy pierwszy przewrót', '+3'] },
+        { id: 'major-second-inversion', name: 'Trójdźwięk durowy — drugi przewrót', notation: '5–1–3', intervals: [7, 12, 16], aliases: ['dur drugi przewrót', 'durowy drugi przewrót', '+5'] },
+        { id: 'minor-root', name: 'Trójdźwięk molowy — pozycja zasadnicza', notation: '1–3>–5', intervals: [0, 3, 7], aliases: ['moll pozycja zasadnicza', 'molowy zasadniczy', 'o', '0', 'O'] },
+        { id: 'minor-first-inversion', name: 'Trójdźwięk molowy — pierwszy przewrót', notation: '3>–5–1', intervals: [3, 7, 12], aliases: ['moll pierwszy przewrót', 'molowy pierwszy przewrót', 'o3>', '03>', 'O3>'] },
+        { id: 'minor-second-inversion', name: 'Trójdźwięk molowy — drugi przewrót', notation: '5–1–3>', intervals: [7, 12, 15], aliases: ['moll drugi przewrót', 'molowy drugi przewrót', 'o5', '05', 'O5'] },
+        { id: 'diminished-root', name: 'Trójdźwięk zmniejszony', notation: '1–3>–5>', intervals: [0, 3, 6], aliases: ['zmniejszony', 'diminished', '>'] },
+        { id: 'augmented-root', name: 'Trójdźwięk zwiększony', notation: '1–3–5<', intervals: [0, 4, 8], aliases: ['zwiększony', 'augmented', '<'] }
+    ];
+
+    const SCALE_TYPES = [
+        { id: 'major-natural-scale', name: 'Gama durowa naturalna', notes: [0, 2, 4, 5, 7, 9, 11, 12], aliases: ['durowa naturalna', 'dur naturalny', 'major natural'] },
+        { id: 'major-harmonic-scale', name: 'Gama durowa harmoniczna', notes: [0, 2, 4, 5, 7, 8, 11, 12], aliases: ['durowa harmoniczna', 'dur harmoniczny', 'major harmonic'] },
+        { id: 'major-soft-scale', name: 'Gama durowa miękka', notes: [0, 2, 4, 5, 7, 8, 10, 12], aliases: ['durowa miękka', 'dur miękki', 'major soft'] },
+        { id: 'natural-minor-scale', name: 'Gama molowa naturalna', notes: [0, 2, 3, 5, 7, 8, 10, 12], aliases: ['molowa naturalna', 'moll naturalna', 'natural minor'] },
+        { id: 'harmonic-minor-scale', name: 'Gama molowa harmoniczna', notes: [0, 2, 3, 5, 7, 8, 11, 12], aliases: ['molowa harmoniczna', 'moll harmoniczna', 'harmonic minor'] },
+        { id: 'dorian-minor-scale', name: 'Gama molowa dorycka', notes: [0, 2, 3, 5, 7, 9, 10, 12], aliases: ['molowa dorycka', 'moll dorycki', 'dorian minor'] }
+    ];
+
+    const RHYTHM_PATTERNS = [
+        { id: 'quarter-notes', name: 'Równe ćwierćnuty', events: [{ beat: 0, duration: 1 }, { beat: 1, duration: 1 }, { beat: 2, duration: 1 }, { beat: 3, duration: 1 }] },
+        { id: 'eighths-on-beat-two', name: 'Dwie ósemki w środku', events: [{ beat: 0, duration: 1 }, { beat: 1, duration: 0.5 }, { beat: 1.5, duration: 0.5 }, { beat: 2, duration: 1 }, { beat: 3, duration: 1 }] },
+        { id: 'alternating-eighths', name: 'Ósemki i ćwierćnuty', events: [{ beat: 0, duration: 0.5 }, { beat: 0.5, duration: 0.5 }, { beat: 1, duration: 1 }, { beat: 2, duration: 0.5 }, { beat: 2.5, duration: 0.5 }, { beat: 3, duration: 1 }] },
+        { id: 'half-notes', name: 'Półnuty', events: [{ beat: 0, duration: 2 }, { beat: 2, duration: 2 }] },
+        { id: 'quarter-rest', name: 'Ćwierćnuty z pauzą', events: [{ beat: 0, duration: 1 }, { beat: 1, duration: 1, rest: true }, { beat: 2, duration: 1 }, { beat: 3, duration: 1 }] },
+        { id: 'rest-first', name: 'Pauza na początku', events: [{ beat: 0, duration: 1, rest: true }, { beat: 1, duration: 1 }, { beat: 2, duration: 0.5 }, { beat: 2.5, duration: 0.5 }, { beat: 3, duration: 1 }] },
+        { id: 'syncopated-eighths', name: 'Ósemki z pauzą', events: [{ beat: 0, duration: 1 }, { beat: 1, duration: 0.5 }, { beat: 1.5, duration: 0.5 }, { beat: 2, duration: 1, rest: true }, { beat: 3, duration: 1 }] },
+        { id: 'two-eighth-pairs', name: 'Dwie pary ósemek', events: [{ beat: 0, duration: 0.5 }, { beat: 0.5, duration: 0.5 }, { beat: 1, duration: 0.5 }, { beat: 1.5, duration: 0.5 }, { beat: 2, duration: 1 }, { beat: 3, duration: 1 }] }
+    ];
+
+    const THEORY_MODULES = {
+        triads: {
+            title: 'Rozpoznawanie trójdźwięków',
+            instruction: 'Kliknij kafelek, aby usłyszeć akord zagrany jednocześnie, a następnie dźwięki po kolei w górę.',
+            prompt: 'Jaki rodzaj trójdźwięku i który przewrót słyszysz?',
+            items: TRIAD_TYPES,
+            kind: 'chord'
+        },
+        scales: {
+            title: 'Rozpoznawanie gam',
+            instruction: 'Kliknij kafelek, aby usłyszeć gamę zagraną w górę.',
+            prompt: 'Jaką gamę słyszysz?',
+            items: SCALE_TYPES,
+            kind: 'scale'
+        },
+        rhythm: {
+            title: 'Dyktando rytmiczne',
+            instruction: 'Kliknij wzorzec, aby usłyszeć rytm w metrum 4/4.',
+            prompt: 'Który zapis odpowiada usłyszanemu rytmowi?',
+            items: RHYTHM_PATTERNS,
+            kind: 'rhythm'
+        }
+    };
+
+    const PROGRESS_MODULES = {
+        notes: { label: 'Nuty', color: '#38bdf8' },
+        music: { label: 'Utwory', color: '#a78bfa' },
+        intervals: { label: 'Interwały', color: '#22c55e' },
+        triads: { label: 'Trójdźwięki', color: '#f59e0b' },
+        scales: { label: 'Gamy', color: '#f472b6' },
+        rhythm: { label: 'Rytm', color: '#fb7185' }
+    };
 
     const ALL_BASE_NOTES = [];
     for (let oct = 0; oct <= 8; oct++) {
@@ -1493,14 +1956,41 @@
     let musicScore = 0;
     let musicAnswered = false;
     let musicMode = 'learn';
+    let musicQuestionMode = 'closed';
     let intervalQuestions = [];
     let intervalQuestionIndex = 0;
     let intervalScore = 0;
     let intervalAnswered = false;
     let intervalBaseMidi = 60;
     let intervalAudioContext = null;
+    let pianoSampleBuffer = null;
+    let pianoSampleManifest = null;
+    let pianoSampleLoadPromise = null;
     let intervalMode = 'learn';
     let intervalQuestionMode = 'closed';
+    let currentTheoryModule = 'triads';
+    let theoryMode = 'learn';
+    let theoryQuestionMode = 'closed';
+    let theoryQuestions = [];
+    let theoryQuestionIndex = 0;
+    let theoryScore = 0;
+    let theoryAnswered = false;
+    let theoryBaseMidi = 60;
+    let rhythmQuestions = [];
+    let rhythmQuestionIndex = 0;
+    let rhythmScore = 0;
+    let rhythmAnswered = false;
+    let rhythmQuestionMode = 'closed';
+    let rhythmBarCount = 1;
+    let rhythmUserEvents = [];
+    let rhythmUserBeats = 0;
+    let progressHistory = [];
+    try {
+        const storedProgress = JSON.parse(localStorage.getItem('musicAppTestProgress') || '[]');
+        if (Array.isArray(storedProgress)) progressHistory = storedProgress;
+    } catch (error) {
+        progressHistory = [];
+    }
     let targetNote = null;
     let selectedPitchIndex = null;
     let userAccidental = '';
@@ -1536,13 +2026,20 @@
     const musicLearnAudio = document.getElementById('music-learn-audio');
 
     function openModule(moduleName) {
+        const isTheoryModule = moduleName === 'triads' || moduleName === 'scales';
         document.getElementById('home-screen').style.display = 'none';
         document.getElementById('notes-screen').style.display = moduleName === 'notes' ? 'flex' : 'none';
         document.getElementById('music-screen').style.display = moduleName === 'music' ? 'flex' : 'none';
         document.getElementById('interval-screen').style.display = moduleName === 'intervals' ? 'flex' : 'none';
+        document.getElementById('theory-screen').style.display = isTheoryModule ? 'flex' : 'none';
+        document.getElementById('rhythm-screen').style.display = moduleName === 'rhythm' ? 'flex' : 'none';
+        document.getElementById('progress-screen').style.display = moduleName === 'progress' ? 'flex' : 'none';
 
         if (moduleName === 'music') setMusicMode('learn');
         if (moduleName === 'intervals') setIntervalMode('learn');
+        if (isTheoryModule) openTheoryModule(moduleName);
+        if (moduleName === 'rhythm') openRhythmModule();
+        if (moduleName === 'progress') renderProgressChart();
     }
 
     function returnToHome() {
@@ -1556,6 +2053,9 @@
         document.getElementById('notes-screen').style.display = 'none';
         document.getElementById('music-screen').style.display = 'none';
         document.getElementById('interval-screen').style.display = 'none';
+        document.getElementById('theory-screen').style.display = 'none';
+        document.getElementById('rhythm-screen').style.display = 'none';
+        document.getElementById('progress-screen').style.display = 'none';
         if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
     }
 
@@ -1568,6 +2068,164 @@
         return shuffled;
     }
 
+    function recordTestProgress(moduleId, scoreValue, totalQuestions) {
+        if (!PROGRESS_MODULES[moduleId] || !totalQuestions) return;
+
+        progressHistory.push({
+            module: moduleId,
+            percentage: Math.round((scoreValue / totalQuestions) * 100),
+            timestamp: Date.now()
+        });
+        if (progressHistory.length > 300) progressHistory = progressHistory.slice(-300);
+        localStorage.setItem('musicAppTestProgress', JSON.stringify(progressHistory));
+
+        if (document.getElementById('progress-screen').style.display !== 'none') {
+            renderProgressChart();
+        }
+    }
+
+    function averageProgressByDay(rawRecords, selectedModule) {
+        const recordsByDay = new Map();
+        rawRecords.forEach(record => {
+            const date = new Date(record.timestamp);
+            const dayKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+            if (!recordsByDay.has(dayKey)) recordsByDay.set(dayKey, []);
+            recordsByDay.get(dayKey).push(record);
+        });
+
+        return [...recordsByDay.values()].map(dayRecords => ({
+            module: selectedModule === 'all' ? 'all' : selectedModule,
+            percentage: Math.round(dayRecords.reduce((sum, record) => sum + record.percentage, 0) / dayRecords.length),
+            timestamp: dayRecords[0].timestamp,
+            testCount: dayRecords.length
+        }));
+    }
+
+    function renderProgressChart() {
+        const svg = document.getElementById('progress-chart');
+        const legend = document.getElementById('progress-legend');
+        const emptyMessage = document.getElementById('progress-chart-empty');
+        const chartScroll = document.getElementById('progress-chart-scroll');
+        const selectedModule = document.getElementById('progress-module-filter').value;
+        const rawRecords = progressHistory
+            .filter(item => selectedModule === 'all' || item.module === selectedModule)
+            .filter(item => PROGRESS_MODULES[item.module] && Number.isFinite(item.percentage) && Number.isFinite(item.timestamp))
+            .sort((a, b) => a.timestamp - b.timestamp);
+        const records = averageProgressByDay(rawRecords, selectedModule).slice(-50);
+
+        svg.innerHTML = '';
+        legend.innerHTML = '';
+        if (records.length === 0) {
+            emptyMessage.style.display = 'block';
+            chartScroll.style.display = 'none';
+            return;
+        }
+
+        emptyMessage.style.display = 'none';
+        chartScroll.style.display = 'block';
+        const namespace = 'http://www.w3.org/2000/svg';
+        const width = 760;
+        const height = 430;
+        const margin = { left: 104, right: 28, top: 26, bottom: 100 };
+        const plotWidth = width - margin.left - margin.right;
+        const plotHeight = height - margin.top - margin.bottom;
+        const xPosition = index => records.length === 1
+            ? margin.left + plotWidth / 2
+            : margin.left + (index / (records.length - 1)) * plotWidth;
+        const yPosition = percentage => margin.top
+            + (1 - Math.max(0, Math.min(100, percentage)) / 100) * plotHeight;
+
+        const addSvg = (tagName, attributes, textContent) => {
+            const element = document.createElementNS(namespace, tagName);
+            Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+            if (textContent !== undefined) element.textContent = textContent;
+            svg.appendChild(element);
+            return element;
+        };
+
+        for (let percentage = 0; percentage <= 100; percentage += 20) {
+            const y = yPosition(percentage);
+            addSvg('line', {
+                x1: margin.left, y1: y, x2: margin.left + plotWidth, y2: y,
+                class: 'progress-chart-grid'
+            });
+            addSvg('text', {
+                x: margin.left - 12, y: y + 4,
+                class: 'progress-chart-label', 'text-anchor': 'end'
+            }, `${percentage}%`);
+        }
+
+        addSvg('line', {
+            x1: margin.left, y1: margin.top, x2: margin.left, y2: margin.top + plotHeight,
+            class: 'progress-chart-axis'
+        });
+        addSvg('line', {
+            x1: margin.left, y1: margin.top + plotHeight,
+            x2: margin.left + plotWidth, y2: margin.top + plotHeight,
+            class: 'progress-chart-axis'
+        });
+
+        const dateStep = Math.max(1, Math.ceil(records.length / 8));
+        records.forEach((record, index) => {
+            if (index % dateStep !== 0 && index !== records.length - 1) return;
+            const date = new Date(record.timestamp);
+            const label = date.toLocaleDateString('pl-PL', { day: '2-digit', month: '2-digit' })
+                + ' ' + date.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+            const x = xPosition(index);
+            addSvg('line', {
+                x1: x, y1: margin.top, x2: x, y2: margin.top + plotHeight,
+                class: 'progress-chart-grid'
+            });
+            addSvg('text', {
+                x, y: margin.top + plotHeight + 20,
+                class: 'progress-chart-label', 'text-anchor': 'end',
+                transform: `rotate(-35 ${x} ${margin.top + plotHeight + 20})`
+            }, label);
+        });
+
+        const points = records.map((record, index) => `${xPosition(index)},${yPosition(record.percentage)}`).join(' ');
+        if (records.length > 1) addSvg('polyline', { points, class: 'progress-chart-line' });
+
+        records.forEach((record, index) => {
+            const point = addSvg('circle', {
+                cx: xPosition(index), cy: yPosition(record.percentage), r: 7,
+                fill: selectedModule === 'all' ? '#38bdf8' : PROGRESS_MODULES[selectedModule].color,
+                class: 'progress-chart-point'
+            });
+            const title = document.createElementNS(namespace, 'title');
+            const moduleLabel = selectedModule === 'all'
+                ? 'Wszystkie moduły'
+                : PROGRESS_MODULES[selectedModule].label;
+            title.textContent = `${moduleLabel}: średnia ${record.percentage}% z ${record.testCount} testów — ${new Date(record.timestamp).toLocaleDateString('pl-PL')}`;
+            point.appendChild(title);
+        });
+
+        addSvg('text', {
+            x: margin.left + plotWidth / 2, y: height - 8,
+            class: 'progress-chart-axis-title', 'text-anchor': 'middle'
+        }, 'Czas wykonania testu');
+        addSvg('text', {
+            x: 20, y: margin.top + plotHeight / 2,
+            class: 'progress-chart-axis-title', 'text-anchor': 'middle',
+            transform: `rotate(-90 20 ${margin.top + plotHeight / 2})`
+        }, 'Wynik testu (%)');
+
+        const legendModules = selectedModule === 'all'
+            ? [{ label: 'Średnia dzienna — wszystkie moduły', color: '#38bdf8' }]
+            : [{ label: PROGRESS_MODULES[selectedModule].label, color: PROGRESS_MODULES[selectedModule].color }];
+        legendModules.forEach(moduleInfo => {
+            const item = document.createElement('span');
+            item.className = 'progress-legend-item';
+            const dot = document.createElement('span');
+            dot.className = 'progress-legend-dot';
+            dot.style.backgroundColor = moduleInfo.color;
+            const label = document.createElement('span');
+            label.textContent = moduleInfo.label;
+            item.append(dot, label);
+            legend.appendChild(item);
+        });
+    }
+
     function setMusicMode(mode) {
         musicMode = mode;
         const isLearning = mode === 'learn';
@@ -1577,12 +2235,16 @@
 
         if (isLearning) {
             musicAudio.pause();
+            document.getElementById('music-test-config').style.display = 'none';
             document.getElementById('music-quiz-content').style.display = 'none';
             document.getElementById('music-result-panel').style.display = 'none';
             renderMusicLearningTiles();
         } else {
             musicLearnAudio.pause();
-            startMusicQuiz();
+            musicAudio.pause();
+            document.getElementById('music-test-config').style.display = 'flex';
+            document.getElementById('music-quiz-content').style.display = 'none';
+            document.getElementById('music-result-panel').style.display = 'none';
         }
     }
 
@@ -1625,15 +2287,22 @@
 
     function startMusicQuiz() {
         musicAudio.pause();
-        document.getElementById('music-learning-view').style.display = 'none';
-        document.getElementById('music-quiz-content').style.display = 'block';
-        document.getElementById('music-result-panel').style.display = 'none';
-        musicQuestions = shuffleItems(MUSIC_TRACKS);
+        musicQuestionMode = document.getElementById('music-question-mode').value;
+        const questionCount = Number(document.getElementById('music-question-count').value);
+        musicQuestions = shuffleItems(MUSIC_TRACKS).slice(0, questionCount);
         musicQuestionIndex = 0;
         musicScore = 0;
+        document.getElementById('music-learning-view').style.display = 'none';
+        document.getElementById('music-test-config').style.display = 'none';
         document.getElementById('music-quiz-content').style.display = 'block';
         document.getElementById('music-result-panel').style.display = 'none';
         loadMusicQuestion();
+    }
+
+    function updateMusicTestProgress(completedQuestions) {
+        const percent = Math.round((completedQuestions / musicQuestions.length) * 100);
+        document.getElementById('music-test-progress-fill').style.width = `${percent}%`;
+        document.getElementById('music-test-progress-container').setAttribute('aria-valuenow', percent);
     }
 
     function loadMusicQuestion() {
@@ -1650,12 +2319,24 @@
         document.getElementById('music-feedback').textContent = '';
         document.getElementById('music-feedback').className = 'music-feedback';
         document.getElementById('music-next-btn').style.display = 'none';
+        updateMusicTestProgress(musicQuestionIndex);
+
+        const answerGrid = document.getElementById('music-answer-grid');
+        const openAnswer = document.getElementById('music-open-answer');
+        const answerInput = document.getElementById('music-answer-input');
+        answerGrid.style.display = musicQuestionMode === 'closed' ? 'grid' : 'none';
+        openAnswer.style.display = musicQuestionMode === 'open' ? 'flex' : 'none';
+        answerInput.value = '';
+        answerInput.disabled = false;
+        openAnswer.querySelector('button').disabled = false;
+        answerInput.onkeydown = event => {
+            if (event.key === 'Enter') submitOpenMusicAnswer();
+        };
 
         const choices = shuffleItems([
             track,
             ...shuffleItems(MUSIC_TRACKS.filter(item => item.id !== track.id)).slice(0, 3)
         ]);
-        const answerGrid = document.getElementById('music-answer-grid');
         answerGrid.innerHTML = '';
 
         choices.forEach(choice => {
@@ -1677,7 +2358,52 @@
         });
     }
 
-    function answerMusicQuestion(selectedId, selectedButton) {
+    function matchesMusicAnswer(value, track) {
+        const answer = normalizeIntervalName(value)
+            .replace(/[.,:;!?()[\]"']/g, ' ')
+            .replace(/\s+/g, ' ')
+            .trim();
+        if (answer.length < 3) return false;
+
+        const candidates = MUSIC_TRACKS.filter(candidate => {
+            const searchableText = normalizeIntervalName(
+                `${candidate.composer} ${candidate.title} ${candidate.file.replace(/\.mp3$/i, '')}`
+            )
+                .replace(/[.,:;!?()[\]"']/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim();
+            if (searchableText.includes(answer)) return true;
+
+            const significantShortWords = new Set(['cz', 'nr', 'g', 'f', 'd']);
+            const queryWords = answer.split(' ').filter(word =>
+                word.length >= 3
+                || /^\d+$/.test(word)
+                || /^[ivxlcdm]+$/.test(word)
+                || significantShortWords.has(word)
+            );
+            const searchableWords = new Set(searchableText.split(' '));
+            return queryWords.length > 0 && queryWords.every(word => searchableWords.has(word));
+        });
+
+        return candidates.length === 1 && candidates[0].id === track.id;
+    }
+
+    function submitOpenMusicAnswer() {
+        const input = document.getElementById('music-answer-input');
+        if (!normalizeIntervalName(input.value)) {
+            const feedback = document.getElementById('music-feedback');
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Wpisz tytuł utworu.';
+            input.focus();
+            return;
+        }
+
+        const track = musicQuestions[musicQuestionIndex];
+        const selectedId = matchesMusicAnswer(input.value, track) ? track.id : null;
+        answerMusicQuestion(selectedId);
+    }
+
+    function answerMusicQuestion(selectedId, selectedButton = null) {
         if (musicAnswered) return;
         musicAnswered = true;
         musicAudio.pause();
@@ -1686,11 +2412,16 @@
         const isCorrect = selectedId === correctTrack.id;
         if (isCorrect) musicScore++;
 
-        document.querySelectorAll('#music-answer-grid .music-answer').forEach(button => {
-            button.disabled = true;
-            if (button.dataset.trackId === correctTrack.id) button.classList.add('correct');
-        });
-        if (!isCorrect) selectedButton.classList.add('wrong');
+        if (musicQuestionMode === 'closed') {
+            document.querySelectorAll('#music-answer-grid .music-answer').forEach(button => {
+                button.disabled = true;
+                if (button.dataset.trackId === correctTrack.id) button.classList.add('correct');
+            });
+            if (!isCorrect && selectedButton) selectedButton.classList.add('wrong');
+        } else {
+            document.getElementById('music-answer-input').disabled = true;
+            document.querySelector('#music-open-answer button').disabled = true;
+        }
 
         const feedback = document.getElementById('music-feedback');
         feedback.classList.add(isCorrect ? 'correct' : 'wrong');
@@ -1700,6 +2431,7 @@
 
         document.getElementById('music-status').textContent =
             `Utwór ${musicQuestionIndex + 1} z ${musicQuestions.length} · Wynik: ${musicScore}`;
+        updateMusicTestProgress(musicQuestionIndex + 1);
         const nextButton = document.getElementById('music-next-btn');
         nextButton.textContent = musicQuestionIndex === musicQuestions.length - 1
             ? 'Zobacz wynik'
@@ -1715,6 +2447,7 @@
         }
 
         musicAudio.pause();
+        recordTestProgress('music', musicScore, musicQuestions.length);
         document.getElementById('music-quiz-content').style.display = 'none';
         document.getElementById('music-result-panel').style.display = 'flex';
         document.getElementById('music-result-score').textContent =
@@ -1784,6 +2517,12 @@
         loadIntervalQuestion();
     }
 
+    function updateIntervalTestProgress(completedQuestions) {
+        const percent = Math.round((completedQuestions / intervalQuestions.length) * 100);
+        document.getElementById('interval-test-progress-fill').style.width = `${percent}%`;
+        document.getElementById('interval-test-progress-container').setAttribute('aria-valuenow', percent);
+    }
+
     function loadIntervalQuestion() {
         const question = intervalQuestions[intervalQuestionIndex];
         if (!question) return;
@@ -1795,6 +2534,7 @@
         document.getElementById('interval-feedback').textContent = '';
         document.getElementById('interval-feedback').className = 'music-feedback';
         document.getElementById('interval-next-btn').style.display = 'none';
+        updateIntervalTestProgress(intervalQuestionIndex);
 
         const answerGrid = document.getElementById('interval-answer-grid');
         const openAnswer = document.getElementById('interval-open-answer');
@@ -1829,33 +2569,118 @@
         });
     }
 
-    function schedulePianoTone(midi, startAt, output) {
+    async function ensurePianoSampleBank() {
+        if (pianoSampleBuffer && pianoSampleManifest) return true;
+        if (pianoSampleLoadPromise) return pianoSampleLoadPromise;
+
+        pianoSampleLoadPromise = (async () => {
+            const [manifestResponse, audioResponse] = await Promise.all([
+                fetch('assets/piano_notes.json'),
+                fetch('assets/piano_notes.wav')
+            ]);
+            if (!manifestResponse.ok || !audioResponse.ok) throw new Error('Piano sample files are unavailable');
+
+            const manifest = await manifestResponse.json();
+            const audioData = await audioResponse.arrayBuffer();
+            const sampleBuffer = await intervalAudioContext.decodeAudioData(audioData);
+            pianoSampleManifest = manifest;
+            pianoSampleBuffer = sampleBuffer;
+            return true;
+        })().catch(() => false);
+
+        return pianoSampleLoadPromise;
+    }
+
+    function schedulePianoTone(midi, startAt, output, decayMultiplier = 1, gateDuration = null) {
+        const pianoNote = pianoSampleManifest?.notes?.[String(midi)];
+        if (pianoSampleBuffer && pianoNote) {
+            const sample = intervalAudioContext.createBufferSource();
+            const envelope = intervalAudioContext.createGain();
+            sample.buffer = pianoSampleBuffer;
+            sample.connect(envelope);
+            envelope.connect(output);
+
+            const playbackDuration = gateDuration === null
+                ? pianoNote.duration
+                : Math.min(pianoNote.duration, gateDuration);
+            if (gateDuration !== null) {
+                const releaseStart = startAt + Math.max(0.01, playbackDuration - 0.04);
+                envelope.gain.setValueAtTime(0.9, startAt);
+                envelope.gain.setValueAtTime(0.9, releaseStart);
+                envelope.gain.exponentialRampToValueAtTime(0.0001, startAt + playbackDuration);
+            } else if (decayMultiplier < 1) {
+                const shortenedDuration = Math.max(0.12, pianoNote.duration * decayMultiplier);
+                envelope.gain.setValueAtTime(0.9, startAt);
+                envelope.gain.exponentialRampToValueAtTime(0.0001, startAt + shortenedDuration);
+            } else {
+                envelope.gain.setValueAtTime(0.9, startAt);
+            }
+
+            sample.start(startAt, pianoNote.offset, playbackDuration);
+            return;
+        }
+
         const fundamental = 440 * Math.pow(2, (midi - 69) / 12);
-        const noteDecay = Math.max(0.55, 1.35 - (midi - 48) * 0.012);
+        const noteDecay = Math.max(0.45, 1.05 - (midi - 48) * 0.015) * decayMultiplier;
         const partials = [
-            { ratio: 1, level: 0.56, decay: noteDecay },
-            { ratio: 2.001, level: 0.23, decay: noteDecay * 0.68 },
-            { ratio: 3.009, level: 0.12, decay: noteDecay * 0.44 },
-            { ratio: 4.018, level: 0.055, decay: noteDecay * 0.3 },
-            { ratio: 5.03, level: 0.022, decay: noteDecay * 0.2 }
+            { ratio: 0.9985, level: 0.16, decay: noteDecay * 0.82 },
+            { ratio: 1, level: 0.38, decay: noteDecay },
+            { ratio: 1.0015, level: 0.16, decay: noteDecay * 0.82 },
+            { ratio: 2.004, level: 0.17, decay: noteDecay * 0.62 },
+            { ratio: 3.012, level: 0.09, decay: noteDecay * 0.42 },
+            { ratio: 4.03, level: 0.045, decay: noteDecay * 0.28 },
+            { ratio: 5.05, level: 0.022, decay: noteDecay * 0.18 },
+            { ratio: 6.08, level: 0.01, decay: noteDecay * 0.12 }
         ];
+
+        const attackDuration = 0.024;
+        const noiseBuffer = intervalAudioContext.createBuffer(
+            1,
+            Math.max(1, Math.floor(intervalAudioContext.sampleRate * attackDuration)),
+            intervalAudioContext.sampleRate
+        );
+        const noiseData = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < noiseData.length; i++) {
+            const fade = 1 - i / noiseData.length;
+            noiseData[i] = (Math.random() * 2 - 1) * fade;
+        }
+        const hammerNoise = intervalAudioContext.createBufferSource();
+        const hammerFilter = intervalAudioContext.createBiquadFilter();
+        const hammerEnvelope = intervalAudioContext.createGain();
+        hammerNoise.buffer = noiseBuffer;
+        hammerFilter.type = 'bandpass';
+        hammerFilter.frequency.setValueAtTime(Math.min(6200, Math.max(1700, fundamental * 3)), startAt);
+        hammerFilter.Q.setValueAtTime(0.8, startAt);
+        hammerEnvelope.gain.setValueAtTime(0.0001, startAt);
+        hammerEnvelope.gain.exponentialRampToValueAtTime(0.035, startAt + 0.002);
+        hammerEnvelope.gain.exponentialRampToValueAtTime(0.0001, startAt + attackDuration);
+        hammerNoise.connect(hammerFilter);
+        hammerFilter.connect(hammerEnvelope);
+        hammerEnvelope.connect(output);
+        hammerNoise.start(startAt);
+        hammerNoise.stop(startAt + attackDuration);
 
         partials.forEach(partial => {
             const oscillator = intervalAudioContext.createOscillator();
             const envelope = intervalAudioContext.createGain();
             const peak = partial.level;
-            const decayEnd = startAt + Math.max(0.12, partial.decay);
+            const decayEnd = startAt + (gateDuration === null ? Math.max(0.14, partial.decay) : gateDuration);
 
             oscillator.type = 'sine';
             oscillator.frequency.setValueAtTime(fundamental * partial.ratio, startAt);
             envelope.gain.setValueAtTime(0.0001, startAt);
-            envelope.gain.exponentialRampToValueAtTime(peak, startAt + 0.006);
-            envelope.gain.exponentialRampToValueAtTime(peak * 0.42, startAt + 0.09);
+            envelope.gain.exponentialRampToValueAtTime(peak, startAt + 0.004);
+            if (gateDuration === null) {
+                envelope.gain.exponentialRampToValueAtTime(peak * 0.28, startAt + 0.08);
+            } else {
+                const releaseStart = startAt + Math.max(0.01, gateDuration - 0.04);
+                envelope.gain.setValueAtTime(peak * 0.5, releaseStart);
+            }
             envelope.gain.exponentialRampToValueAtTime(0.0001, decayEnd);
             oscillator.connect(envelope);
             envelope.connect(output);
             oscillator.start(startAt);
-            oscillator.stop(decayEnd + 0.02);
+            oscillator.stop(decayEnd + (gateDuration === null ? 0.02 : 0.005));
         });
     }
 
@@ -1871,14 +2696,15 @@
         try {
             if (!intervalAudioContext) intervalAudioContext = new AudioContextClass();
             if (intervalAudioContext.state === 'suspended') await intervalAudioContext.resume();
+            await ensurePianoSampleBank();
 
             const masterGain = intervalAudioContext.createGain();
             masterGain.gain.setValueAtTime(0.3, intervalAudioContext.currentTime);
             masterGain.connect(intervalAudioContext.destination);
 
             const startAt = intervalAudioContext.currentTime + 0.04;
-            schedulePianoTone(baseMidi, startAt, masterGain);
-            schedulePianoTone(baseMidi + semitones, startAt + 0.78, masterGain);
+            schedulePianoTone(baseMidi, startAt, masterGain, 1, 0.62);
+            schedulePianoTone(baseMidi + semitones, startAt + 0.78, masterGain, 1, 0.62);
         } catch (error) {
             feedback.className = 'music-feedback wrong';
             feedback.textContent = 'Nie udało się odtworzyć dźwięku. Spróbuj ponownie.';
@@ -1966,6 +2792,7 @@
 
         document.getElementById('interval-status').textContent =
             `Pytanie ${intervalQuestionIndex + 1} z ${intervalQuestions.length} · Wynik: ${intervalScore}`;
+        updateIntervalTestProgress(intervalQuestionIndex + 1);
         const nextButton = document.getElementById('interval-next-btn');
         nextButton.textContent = intervalQuestionIndex === intervalQuestions.length - 1
             ? 'Zobacz wynik'
@@ -1981,10 +2808,665 @@
         }
 
         if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+        recordTestProgress('intervals', intervalScore, intervalQuestions.length);
         document.getElementById('interval-test-view').style.display = 'none';
         document.getElementById('interval-result-panel').style.display = 'flex';
         document.getElementById('interval-result-score').textContent =
             `${intervalScore} / ${intervalQuestions.length}`;
+    }
+
+    function openTheoryModule(moduleId) {
+        currentTheoryModule = moduleId;
+        const module = THEORY_MODULES[moduleId];
+        document.getElementById('theory-screen-title').textContent = module.title;
+        document.getElementById('theory-learning-instruction').textContent = module.instruction;
+        document.getElementById('theory-hearing-instruction').textContent = module.instruction;
+        const countSelect = document.getElementById('theory-question-count');
+        const countOptions = [...new Set([5, 10, module.items.length])].sort((a, b) => a - b);
+        countSelect.innerHTML = '';
+        countOptions.forEach(count => {
+            const option = document.createElement('option');
+            option.value = count;
+            option.textContent = count === module.items.length
+                ? `${count} pytań (wszystkie rodzaje)`
+                : `${count} pytań`;
+            countSelect.appendChild(option);
+        });
+        countSelect.value = String(module.items.length);
+        setTheoryMode('learn');
+    }
+
+    function setTheoryMode(mode) {
+        theoryMode = mode;
+        const isLearning = mode === 'learn';
+        document.getElementById('theory-learn-tab').classList.toggle('active', isLearning);
+        document.getElementById('theory-test-tab').classList.toggle('active', !isLearning);
+        document.getElementById('theory-learning-view').style.display = isLearning ? 'block' : 'none';
+        document.getElementById('theory-test-config').style.display = isLearning ? 'none' : 'flex';
+        document.getElementById('theory-test-view').style.display = 'none';
+        document.getElementById('theory-result-panel').style.display = 'none';
+        if (isLearning) renderTheoryLearningTiles();
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+    }
+
+    function renderTheoryLearningTiles() {
+        const module = THEORY_MODULES[currentTheoryModule];
+        const grid = document.getElementById('theory-learning-grid');
+        grid.innerHTML = '';
+
+        module.items.forEach(item => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'interval-learning-tile';
+            button.setAttribute('aria-label', `Odtwórz ${item.name}`);
+
+            const name = document.createElement('span');
+            name.className = 'interval-learning-name';
+            name.textContent = item.notation ? `${item.notation} — ${item.name}` : item.name;
+            const detail = document.createElement('span');
+            detail.className = 'interval-learning-size';
+            detail.textContent = module.kind === 'chord'
+                ? `Interwały: ${item.intervals.join(', ')} półtonów`
+                : `${item.notes.length} dźwięków`;
+
+            button.append(name, detail);
+            button.addEventListener('click', () => playTheoryItem(item, 'theory-learning-feedback'));
+            grid.appendChild(button);
+        });
+    }
+
+    async function playTheoryItem(item, feedbackId) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const feedback = document.getElementById(feedbackId);
+        const module = THEORY_MODULES[currentTheoryModule];
+        if (!AudioContextClass) {
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Ta przeglądarka nie obsługuje odtwarzania dźwięku.';
+            return;
+        }
+
+        try {
+            if (!intervalAudioContext) intervalAudioContext = new AudioContextClass();
+            if (intervalAudioContext.state === 'suspended') await intervalAudioContext.resume();
+            await ensurePianoSampleBank();
+
+            const masterGain = intervalAudioContext.createGain();
+            masterGain.gain.setValueAtTime(module.kind === 'chord' ? 0.24 : 0.32, intervalAudioContext.currentTime);
+            masterGain.connect(intervalAudioContext.destination);
+
+            const startAt = intervalAudioContext.currentTime + 0.04;
+            const baseMidi = theoryBaseMidi;
+            if (module.kind === 'chord') {
+                item.intervals.forEach(semitones => {
+                    schedulePianoTone(baseMidi + semitones, startAt, masterGain, 1, 1.05);
+                });
+
+                const arpeggioStart = startAt + 1.25;
+                item.intervals.forEach((semitones, index) => {
+                    schedulePianoTone(baseMidi + semitones, arpeggioStart + index * 0.36, masterGain, 1, 0.32);
+                });
+            } else {
+                item.notes.forEach((semitones, index) => {
+                    schedulePianoTone(baseMidi + semitones, startAt + index * 0.34, masterGain, 1, 0.31);
+                });
+            }
+            feedback.className = 'music-feedback';
+            feedback.textContent = `Odtwarzam: ${item.name}.`;
+        } catch (error) {
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Nie udało się odtworzyć dźwięku. Spróbuj ponownie.';
+        }
+    }
+
+    function startTheoryTest() {
+        const module = THEORY_MODULES[currentTheoryModule];
+        const questionCount = Number(document.getElementById('theory-question-count').value);
+        theoryQuestionMode = document.getElementById('theory-question-mode').value;
+        theoryQuestions = [];
+        let previousId = null;
+        while (theoryQuestions.length < questionCount) {
+            const candidates = module.items.filter(item => item.id !== previousId);
+            const question = candidates[Math.floor(Math.random() * candidates.length)];
+            theoryQuestions.push(question);
+            previousId = question.id;
+        }
+        theoryQuestionIndex = 0;
+        theoryScore = 0;
+
+        document.getElementById('theory-learning-view').style.display = 'none';
+        document.getElementById('theory-test-config').style.display = 'none';
+        document.getElementById('theory-result-panel').style.display = 'none';
+        document.getElementById('theory-test-view').style.display = 'block';
+        loadTheoryQuestion();
+    }
+
+    function updateTheoryTestProgress(completedQuestions) {
+        const percent = Math.round((completedQuestions / theoryQuestions.length) * 100);
+        document.getElementById('theory-test-progress-fill').style.width = `${percent}%`;
+        document.getElementById('theory-test-progress-container').setAttribute('aria-valuenow', percent);
+    }
+
+    function loadTheoryQuestion() {
+        const module = THEORY_MODULES[currentTheoryModule];
+        const question = theoryQuestions[theoryQuestionIndex];
+        if (!question) return;
+
+        theoryAnswered = false;
+        theoryBaseMidi = 48 + Math.floor(Math.random() * 13);
+        document.getElementById('theory-status').textContent =
+            `Pytanie ${theoryQuestionIndex + 1} z ${theoryQuestions.length} · Wynik: ${theoryScore}`;
+        document.getElementById('theory-question-title').textContent = module.prompt;
+        document.getElementById('theory-feedback').textContent = '';
+        document.getElementById('theory-feedback').className = 'music-feedback';
+        document.getElementById('theory-next-btn').style.display = 'none';
+        updateTheoryTestProgress(theoryQuestionIndex);
+
+        const answerGrid = document.getElementById('theory-answer-grid');
+        const openAnswer = document.getElementById('theory-open-answer');
+        const answerInput = document.getElementById('theory-answer-input');
+        answerGrid.style.display = theoryQuestionMode === 'closed' ? 'grid' : 'none';
+        openAnswer.style.display = theoryQuestionMode === 'open' ? 'flex' : 'none';
+        answerInput.value = '';
+        answerInput.disabled = false;
+        openAnswer.querySelector('button').disabled = false;
+        answerInput.placeholder = currentTheoryModule === 'triads'
+            ? 'Wpisz rodzaj trójdźwięku'
+            : 'Wpisz nazwę gamy';
+        answerInput.onkeydown = event => {
+            if (event.key === 'Enter') submitOpenTheoryAnswer();
+        };
+
+        const choices = shuffleItems([
+            question,
+            ...shuffleItems(module.items.filter(item => item.id !== question.id)).slice(0, 3)
+        ]);
+        answerGrid.innerHTML = '';
+        choices.forEach(choice => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'music-answer';
+            button.dataset.itemId = choice.id;
+            const title = document.createElement('span');
+            title.className = 'music-answer-title';
+            title.textContent = choice.notation ? `${choice.notation} — ${choice.name}` : choice.name;
+            button.appendChild(title);
+            button.addEventListener('click', () => answerTheoryQuestion(choice.id, button));
+            answerGrid.appendChild(button);
+        });
+    }
+
+    function playCurrentTheoryQuestion() {
+        const question = theoryQuestions[theoryQuestionIndex];
+        if (question) playTheoryItem(question, 'theory-feedback');
+    }
+
+    function submitOpenTheoryAnswer() {
+        const input = document.getElementById('theory-answer-input');
+        const answer = normalizeIntervalName(input.value);
+        if (!answer) {
+            const feedback = document.getElementById('theory-feedback');
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Wpisz odpowiedź.';
+            input.focus();
+            return;
+        }
+
+        const question = theoryQuestions[theoryQuestionIndex];
+        const acceptedAnswers = [question.name, question.notation, ...(question.aliases || [])]
+            .filter(Boolean)
+            .map(normalizeIntervalName);
+        answerTheoryQuestion(acceptedAnswers.includes(answer) ? question.id : null);
+    }
+
+    function answerTheoryQuestion(selectedId, selectedButton = null) {
+        if (theoryAnswered) return;
+        theoryAnswered = true;
+        const question = theoryQuestions[theoryQuestionIndex];
+        const isCorrect = selectedId === question.id;
+        if (isCorrect) theoryScore++;
+
+        if (theoryQuestionMode === 'closed') {
+            document.querySelectorAll('#theory-answer-grid .music-answer').forEach(button => {
+                button.disabled = true;
+                if (button.dataset.itemId === question.id) button.classList.add('correct');
+            });
+            if (!isCorrect && selectedButton) selectedButton.classList.add('wrong');
+        } else {
+            document.getElementById('theory-answer-input').disabled = true;
+            document.querySelector('#theory-open-answer button').disabled = true;
+        }
+
+        const feedback = document.getElementById('theory-feedback');
+        feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+        feedback.textContent = isCorrect
+            ? 'Dobrze! Rozpoznano poprawnie.'
+            : `Poprawna odpowiedź: ${question.name}.`;
+        document.getElementById('theory-status').textContent =
+            `Pytanie ${theoryQuestionIndex + 1} z ${theoryQuestions.length} · Wynik: ${theoryScore}`;
+        updateTheoryTestProgress(theoryQuestionIndex + 1);
+        const nextButton = document.getElementById('theory-next-btn');
+        nextButton.textContent = theoryQuestionIndex === theoryQuestions.length - 1
+            ? 'Zobacz wynik'
+            : 'Następne pytanie';
+        nextButton.style.display = 'block';
+    }
+
+    function nextTheoryQuestion() {
+        if (theoryQuestionIndex < theoryQuestions.length - 1) {
+            theoryQuestionIndex++;
+            loadTheoryQuestion();
+            return;
+        }
+
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+        recordTestProgress(currentTheoryModule, theoryScore, theoryQuestions.length);
+        document.getElementById('theory-test-view').style.display = 'none';
+        document.getElementById('theory-result-panel').style.display = 'flex';
+        document.getElementById('theory-result-score').textContent =
+            `${theoryScore} / ${theoryQuestions.length}`;
+    }
+
+    function openRhythmModule() {
+        setRhythmMode('learn');
+    }
+
+    function setRhythmMode(mode) {
+        const isLearning = mode === 'learn';
+        document.getElementById('rhythm-learn-tab').classList.toggle('active', isLearning);
+        document.getElementById('rhythm-test-tab').classList.toggle('active', !isLearning);
+        document.getElementById('rhythm-learning-view').style.display = isLearning ? 'block' : 'none';
+        document.getElementById('rhythm-test-config').style.display = isLearning ? 'none' : 'flex';
+        document.getElementById('rhythm-test-view').style.display = 'none';
+        document.getElementById('rhythm-result-panel').style.display = 'none';
+        if (isLearning) renderRhythmLearningTiles();
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+    }
+
+    function renderRhythmLearningTiles() {
+        const grid = document.getElementById('rhythm-learning-grid');
+        grid.innerHTML = '';
+        RHYTHM_PATTERNS.forEach(pattern => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'interval-learning-tile';
+            button.setAttribute('aria-label', `Odtwórz rytm: ${pattern.name}`);
+
+            const name = document.createElement('span');
+            name.className = 'interval-learning-name';
+            name.textContent = pattern.name;
+            const staffFrame = document.createElement('div');
+            staffFrame.className = 'rhythm-notation-frame';
+            staffFrame.appendChild(createRhythmNotation(pattern.events));
+
+            button.append(name, staffFrame);
+            button.addEventListener('click', () => playRhythmPattern(pattern, 'rhythm-learning-feedback'));
+            grid.appendChild(button);
+        });
+    }
+
+    function createRhythmNotation(events, barCount = 1, expandToBars = false) {
+        const namespace = 'http://www.w3.org/2000/svg';
+        const measureWidth = 528;
+        const svgWidth = 72 + measureWidth * barCount;
+        const svg = document.createElementNS(namespace, 'svg');
+        svg.setAttribute('class', 'rhythm-notation-svg');
+        svg.setAttribute('viewBox', `0 0 ${svgWidth} 108`);
+        svg.setAttribute('role', 'img');
+        svg.setAttribute('aria-label', `Zapis rytmu na pięciolinii, ${barCount} ${barCount === 1 ? 'takt' : 'takty'} w metrum cztery czwarte`);
+        svg.style.width = expandToBars ? `${svgWidth}px` : '100%';
+        if (expandToBars) svg.style.minWidth = `${svgWidth}px`;
+
+        const add = (tag, attributes) => {
+            const element = document.createElementNS(namespace, tag);
+            Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value));
+            svg.appendChild(element);
+            return element;
+        };
+
+        add('rect', { x: 0, y: 0, width: svgWidth, height: 108, fill: '#f8fafc' });
+        const staffLines = [28, 40, 52, 64, 76];
+        const rightEdge = 52 + measureWidth * barCount;
+        staffLines.forEach(y => add('line', { x1: 52, y1: y, x2: rightEdge, y2: y, stroke: '#1e293b', 'stroke-width': 2 }));
+        for (let bar = 0; bar <= barCount; bar++) {
+            const barX = 52 + measureWidth * bar;
+            add('line', { x1: barX, y1: 28, x2: barX, y2: 76, stroke: '#0f172a', 'stroke-width': 2.5 });
+        }
+        add('text', { x: 13, y: 45, fill: '#0f172a', 'font-size': 16, 'font-family': 'serif', 'font-weight': 'bold' }).textContent = '4';
+        add('text', { x: 13, y: 64, fill: '#0f172a', 'font-size': 16, 'font-family': 'serif', 'font-weight': 'bold' }).textContent = '4';
+
+        events.forEach(event => {
+            const barIndex = Math.floor(event.beat / 4);
+            const beatInBar = event.beat - barIndex * 4;
+            const x = 62 + barIndex * measureWidth + beatInBar * 126;
+            const centerY = 52;
+            const inkColor = event.correct === true
+                ? '#16a34a'
+                : event.correct === false ? '#dc2626' : '#0f172a';
+
+            if (event.rest) {
+                if (event.duration >= 2) {
+                    add('rect', {
+                        x: x - 5, y: event.duration >= 4 ? 52 : 46,
+                        width: 10, height: 5, fill: inkColor
+                    });
+                } else if (event.duration >= 1) {
+                    add('path', {
+                        d: `M ${x + 3} 26 l -7 13 8 5 -8 12 7 4 -7 13`,
+                        fill: 'none', stroke: inkColor, 'stroke-width': 3, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'
+                    });
+                    add('circle', { cx: x + 5, cy: 78, r: 3.2, fill: inkColor });
+                } else {
+                    add('path', {
+                        d: `M ${x + 2} 31 q 13 3 5 13 q -5 6 -10 8`,
+                        fill: 'none', stroke: inkColor, 'stroke-width': 3, 'stroke-linecap': 'round'
+                    });
+                    add('circle', { cx: x + 1, cy: 57, r: 3, fill: inkColor });
+                }
+                return;
+            }
+
+            const hollow = event.duration >= 2;
+            add('ellipse', {
+                cx: x, cy: centerY, rx: 11, ry: 7.5,
+                fill: hollow ? '#f8fafc' : inkColor,
+                stroke: inkColor, 'stroke-width': 2.5,
+                transform: `rotate(-18 ${x} ${centerY})`
+            });
+
+            if (event.duration < 4) {
+                add('line', {
+                    x1: x + 10, y1: centerY - 2, x2: x + 10, y2: 15,
+                    stroke: inkColor, 'stroke-width': 2.8, 'stroke-linecap': 'round'
+                });
+            }
+            if (event.duration <= 0.5) {
+                add('path', {
+                    d: `M ${x + 10} 16 q 21 9 9 20`,
+                    fill: 'none', stroke: inkColor, 'stroke-width': 3, 'stroke-linecap': 'round'
+                });
+            }
+        });
+
+        return svg;
+    }
+
+    async function playRhythmPattern(pattern, feedbackId) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        const feedback = document.getElementById(feedbackId);
+        if (!AudioContextClass) {
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Ta przeglądarka nie obsługuje odtwarzania dźwięku.';
+            return;
+        }
+
+        try {
+            if (!intervalAudioContext) intervalAudioContext = new AudioContextClass();
+            if (intervalAudioContext.state === 'suspended') await intervalAudioContext.resume();
+            await ensurePianoSampleBank();
+
+            const output = intervalAudioContext.createGain();
+            output.gain.setValueAtTime(0.34, intervalAudioContext.currentTime);
+            output.connect(intervalAudioContext.destination);
+            const beatDuration = 60 / 90;
+            const startAt = intervalAudioContext.currentTime + 0.06;
+
+            pattern.events.filter(event => !event.rest).forEach((event, index) => {
+                const noteStart = startAt + event.beat * beatDuration;
+                const accent = intervalAudioContext.createGain();
+                accent.gain.setValueAtTime(index === 0 ? 1.2 : 0.9, noteStart);
+                accent.connect(output);
+                schedulePianoTone(72, noteStart, accent, 1, event.duration * beatDuration);
+            });
+            feedback.className = 'music-feedback';
+            feedback.textContent = `Odtwarzam rytm: ${pattern.name}.`;
+        } catch (error) {
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = 'Nie udało się odtworzyć rytmu. Spróbuj ponownie.';
+        }
+    }
+
+    function generateRandomRhythm(barCount) {
+        const events = [];
+
+        for (let bar = 0; bar < barCount; bar++) {
+            let remaining = 4;
+            let hasSoundInBar = false;
+            while (remaining > 0) {
+                const durations = [2, 1, 0.5].filter(duration => duration <= remaining);
+                const duration = durations[Math.floor(Math.random() * durations.length)];
+                const rest = hasSoundInBar && Math.random() < 0.2;
+                events.push({ beat: bar * 4 + 4 - remaining, duration, rest });
+                if (!rest) hasSoundInBar = true;
+                remaining = Math.round((remaining - duration) * 2) / 2;
+            }
+        }
+
+        return {
+            id: `random-rhythm-${Date.now()}-${Math.random()}`,
+            name: `Losowy rytm — ${barCount} ${barCount === 1 ? 'takt' : 'takty'}`,
+            events
+        };
+    }
+
+    function rhythmPatternSignature(pattern) {
+        return pattern.events.map(event => `${event.beat}:${event.duration}:${Boolean(event.rest)}`).join('|');
+    }
+
+    function startRhythmTest() {
+        const questionCount = Number(document.getElementById('rhythm-question-count').value);
+        rhythmBarCount = Number(document.getElementById('rhythm-bar-count').value);
+        rhythmQuestionMode = document.getElementById('rhythm-question-mode').value;
+        rhythmQuestions = [];
+        let previousSignature = null;
+        while (rhythmQuestions.length < questionCount) {
+            let question = generateRandomRhythm(rhythmBarCount);
+            let attempts = 0;
+            while (rhythmPatternSignature(question) === previousSignature && attempts < 12) {
+                question = generateRandomRhythm(rhythmBarCount);
+                attempts++;
+            }
+            rhythmQuestions.push(question);
+            previousSignature = rhythmPatternSignature(question);
+        }
+        rhythmQuestionIndex = 0;
+        rhythmScore = 0;
+
+        document.getElementById('rhythm-learning-view').style.display = 'none';
+        document.getElementById('rhythm-test-config').style.display = 'none';
+        document.getElementById('rhythm-result-panel').style.display = 'none';
+        document.getElementById('rhythm-test-view').style.display = 'block';
+        loadRhythmQuestion();
+    }
+
+    function updateRhythmTestProgress(completedQuestions) {
+        const percent = Math.round((completedQuestions / rhythmQuestions.length) * 100);
+        document.getElementById('rhythm-test-progress-fill').style.width = `${percent}%`;
+        document.getElementById('rhythm-test-progress-container').setAttribute('aria-valuenow', percent);
+    }
+
+    function loadRhythmQuestion() {
+        const question = rhythmQuestions[rhythmQuestionIndex];
+        if (!question) return;
+
+        rhythmAnswered = false;
+        document.getElementById('rhythm-status').textContent =
+            `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Wynik: ${rhythmScore}`;
+        document.getElementById('rhythm-feedback').textContent = '';
+        document.getElementById('rhythm-feedback').className = 'music-feedback';
+        document.getElementById('rhythm-next-btn').style.display = 'none';
+        updateRhythmTestProgress(rhythmQuestionIndex);
+
+        const answerGrid = document.getElementById('rhythm-answer-grid');
+        const openAnswer = document.getElementById('rhythm-open-answer');
+        answerGrid.style.display = rhythmQuestionMode === 'closed' ? 'grid' : 'none';
+        openAnswer.style.display = rhythmQuestionMode === 'open' ? 'flex' : 'none';
+        rhythmUserEvents = [];
+        rhythmUserBeats = 0;
+        renderRhythmInputStaff();
+        updateRhythmBeatCounter();
+        openAnswer.querySelectorAll('button').forEach(button => button.disabled = false);
+
+        const choices = [];
+        const signatures = new Set([rhythmPatternSignature(question)]);
+        if (rhythmQuestionMode === 'closed') {
+            let attempts = 0;
+            while (choices.length < 3 && attempts < 100) {
+                const distractor = generateRandomRhythm(rhythmBarCount);
+                const signature = rhythmPatternSignature(distractor);
+                if (!signatures.has(signature)) {
+                    signatures.add(signature);
+                    choices.push(distractor);
+                }
+                attempts++;
+            }
+            choices.push(question);
+        }
+        answerGrid.innerHTML = '';
+        shuffleItems(choices).forEach(choice => {
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'music-answer';
+            button.dataset.patternId = choice.id;
+            button.setAttribute('aria-label', `Rytm: ${choice.name}`);
+            const notationFrame = document.createElement('div');
+            notationFrame.className = 'rhythm-notation-frame';
+            notationFrame.appendChild(createRhythmNotation(choice.events, rhythmBarCount, true));
+            button.appendChild(notationFrame);
+            button.addEventListener('click', () => answerRhythmQuestion(choice.id, button));
+            answerGrid.appendChild(button);
+        });
+    }
+
+    function renderRhythmInputStaff() {
+        const frame = document.getElementById('rhythm-answer-staff');
+        frame.innerHTML = '';
+        frame.appendChild(createRhythmNotation(rhythmUserEvents, rhythmBarCount, true));
+    }
+
+    function updateRhythmBeatCounter() {
+        document.getElementById('rhythm-beat-count').textContent =
+            `${rhythmUserBeats} / ${rhythmBarCount * 4} miar · takt ${Math.min(rhythmBarCount, Math.floor(rhythmUserBeats / 4) + 1)} z ${rhythmBarCount}`;
+    }
+
+    function addRhythmEntry(duration, isRest) {
+        if (rhythmAnswered) return;
+        if (rhythmUserBeats + duration > rhythmBarCount * 4) {
+            document.getElementById('rhythm-feedback').className = 'music-feedback wrong';
+            document.getElementById('rhythm-feedback').textContent = 'Wybrana wartość przekracza ustawioną liczbę taktów.';
+            return;
+        }
+
+        rhythmUserEvents.push({ beat: rhythmUserBeats, duration, rest: isRest });
+        rhythmUserBeats += duration;
+        document.getElementById('rhythm-feedback').textContent = '';
+        document.getElementById('rhythm-feedback').className = 'music-feedback';
+        renderRhythmInputStaff();
+        updateRhythmBeatCounter();
+    }
+
+    function undoRhythmEntry() {
+        if (rhythmAnswered || rhythmUserEvents.length === 0) return;
+        const removed = rhythmUserEvents.pop();
+        rhythmUserBeats -= removed.duration;
+        renderRhythmInputStaff();
+        updateRhythmBeatCounter();
+    }
+
+    function clearRhythmEntry() {
+        if (rhythmAnswered) return;
+        rhythmUserEvents = [];
+        rhythmUserBeats = 0;
+        renderRhythmInputStaff();
+        updateRhythmBeatCounter();
+    }
+
+    function playCurrentRhythm() {
+        const question = rhythmQuestions[rhythmQuestionIndex];
+        if (question) playRhythmPattern(question, 'rhythm-feedback');
+    }
+
+    function submitOpenRhythmAnswer() {
+        if (rhythmUserBeats !== rhythmBarCount * 4) {
+            const feedback = document.getElementById('rhythm-feedback');
+            feedback.className = 'music-feedback wrong';
+            feedback.textContent = `Uzupełnij wszystkie ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} przed sprawdzeniem.`;
+            return;
+        }
+        answerRhythmQuestion(rhythmUserEvents);
+    }
+
+    function rhythmsMatch(answerEvents, correctEvents) {
+        if (answerEvents.length !== correctEvents.length) return false;
+        return answerEvents.every((event, index) => {
+            const correct = correctEvents[index];
+            return event.beat === correct.beat
+                && event.duration === correct.duration
+                && Boolean(event.rest) === Boolean(correct.rest);
+        });
+    }
+
+    function answerRhythmQuestion(answer, selectedButton = null) {
+        if (rhythmAnswered) return;
+        rhythmAnswered = true;
+        const correctPattern = rhythmQuestions[rhythmQuestionIndex];
+        const isCorrect = rhythmQuestionMode === 'closed'
+            ? answer === correctPattern.id
+            : rhythmsMatch(answer, correctPattern.events);
+        if (isCorrect) rhythmScore++;
+
+        if (rhythmQuestionMode === 'closed') {
+            document.querySelectorAll('#rhythm-answer-grid .music-answer').forEach(button => {
+                button.disabled = true;
+                const isCorrectOption = button.dataset.patternId === correctPattern.id;
+                const isSelectedOption = selectedButton === button;
+                if (isCorrectOption) button.classList.add('correct');
+                if (isSelectedOption && !isCorrectOption) button.classList.add('wrong');
+
+                if (isCorrectOption || isSelectedOption) {
+                    const pattern = RHYTHM_PATTERNS.find(item => item.id === button.dataset.patternId);
+                    const markedEvents = pattern.events.map(event => ({
+                        ...event,
+                        correct: isCorrectOption
+                    }));
+                    const frame = button.querySelector('.rhythm-notation-frame');
+                    frame.innerHTML = '';
+                    frame.appendChild(createRhythmNotation(markedEvents));
+                }
+            });
+        } else {
+            rhythmUserEvents = rhythmUserEvents.map(event => ({ ...event, correct: isCorrect }));
+            renderRhythmInputStaff();
+            document.querySelectorAll('#rhythm-open-answer button').forEach(button => button.disabled = true);
+        }
+
+        const feedback = document.getElementById('rhythm-feedback');
+        feedback.classList.add(isCorrect ? 'correct' : 'wrong');
+        feedback.textContent = isCorrect
+            ? 'Dobrze! Rozpoznano rytm.'
+            : `Poprawny zapis to rytm „${correctPattern.name}”. Zaznaczone nuty są na czerwono.`;
+        document.getElementById('rhythm-status').textContent =
+            `Pytanie ${rhythmQuestionIndex + 1} z ${rhythmQuestions.length} · ${rhythmBarCount} ${rhythmBarCount === 1 ? 'takt' : 'takty'} · Wynik: ${rhythmScore}`;
+        updateRhythmTestProgress(rhythmQuestionIndex + 1);
+        const nextButton = document.getElementById('rhythm-next-btn');
+        nextButton.textContent = rhythmQuestionIndex === rhythmQuestions.length - 1
+            ? 'Zobacz wynik'
+            : 'Następne pytanie';
+        nextButton.style.display = 'block';
+    }
+
+    function nextRhythmQuestion() {
+        if (rhythmQuestionIndex < rhythmQuestions.length - 1) {
+            rhythmQuestionIndex++;
+            loadRhythmQuestion();
+            return;
+        }
+
+        if (intervalAudioContext?.state === 'running') intervalAudioContext.suspend();
+        recordTestProgress('rhythm', rhythmScore, rhythmQuestions.length);
+        document.getElementById('rhythm-test-view').style.display = 'none';
+        document.getElementById('rhythm-result-panel').style.display = 'flex';
+        document.getElementById('rhythm-result-score').textContent =
+            `${rhythmScore} / ${rhythmQuestions.length}`;
     }
 
     function updateDifficultyDescription() {
@@ -2775,6 +4257,7 @@
 
         const scoreText = `${testState.correctCount}/${testState.total}`;
         const percent = Math.round((testState.correctCount / testState.total) * 100);
+        recordTestProgress('notes', testState.correctCount, testState.total);
 
         document.getElementById('test-score-text').textContent = scoreText;
         document.getElementById('test-percent-text').textContent = `${percent}%`;
